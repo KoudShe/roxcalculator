@@ -1,0 +1,12 @@
+**Calculadora de XP para Ragnarok X Next Generation**
+
+Este site é uma ferramenta essencial para jogadores de Ragnarok X Next Generation que desejam calcular a experiência necessária para subir de nível de forma eficiente. Com uma interface intuitiva e recursos avançados, nosso site oferece:
+
+- **Cálculo preciso de XP**: Determine exatamente quanta experiência você precisa para alcançar seu próximo nível
+- **Banco de dados de monstros**: Acesse informações detalhadas sobre todos os monstros do jogo
+- **Interface moderna**: Design limpo e responsivo que funciona em qualquer dispositivo
+- **Recursos visuais**: Incluindo um logo animado com borda gradiente
+- **Seção de patrocinadores**: Apoie o projeto e divulgue sua marca
+- **Proteção de código**: Medidas para proteger nosso conteúdo exclusivo
+
+Ideal para guildas e jogadores dedicados que querem otimizar seu tempo no jogo. Mantido por fãs para fãs de Ragnarok!

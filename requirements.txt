@@ -1,0 +1,4 @@
+# Todas as dependências estão incluídas no Python padrão
+# tkinter - interface gráfica (já incluído)
+# datetime - manipulação de data/hora (já incluído)
+# json - manipulação de dados JSON (já incluído)

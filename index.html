@@ -1,0 +1,2075 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚔️ ROX XP Calculator - Next Generation</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            background-image: 
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="swords" patternUnits="userSpaceOnUse" width="50" height="50"><path d="M20,10 L30,20 L20,30 L10,20 Z" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23swords)"/></svg>');
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(26, 26, 26, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.05) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .ragnarok-decoration {
+            position: absolute;
+            font-size: 2em;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .ragnarok-decoration:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .ragnarok-decoration:nth-child(2) { top: 20%; right: 5%; animation-delay: 2s; }
+        .ragnarok-decoration:nth-child(3) { bottom: 20%; left: 10%; animation-delay: 4s; }
+        .ragnarok-decoration:nth-child(4) { bottom: 10%; right: 10%; animation-delay: 1s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .header-banner {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0a0a0a 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 46, 0.95) 50%, rgba(22, 33, 62, 0.95) 100%);
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 2.8em;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.8), 0 0 40px rgba(0, 212, 255, 0.4);
+            font-family: 'Silkscreen', 'Press Start 2P', monospace;
+            position: relative;
+        }
+
+        .subtitle {
+            color: #ffffff;
+            font-size: 1.2em;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            margin-bottom: 10px;
+        }
+
+
+
+        .footer-section {
+            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 50%, #0a0a0a 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid rgba(136, 68, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(22, 33, 62, 0.95) 50%, rgba(26, 26, 46, 0.95) 100%);
+            z-index: 1;
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+
+
+        .footer-text h3 {
+            color: #8844ff;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(136, 68, 255, 0.8);
+        }
+
+        .footer-text p {
+            color: #ffffff;
+            margin: 5px 0;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+
+        .footer-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00ff88;
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
+        }
+
+        .stat-label {
+            color: #ffffff;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .controls-section {
+            background: rgba(45, 45, 45, 0.8);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(136, 68, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .controls-section::before {
+            content: "⚔️";
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            opacity: 0.1;
+            animation: rotate 10s linear infinite;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .control-group label {
+            color: #00ff88;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .control-group select,
+        .control-group input {
+            padding: 12px;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(61, 61, 61, 0.9);
+            color: #ffffff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .control-group select:focus,
+        .control-group input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .calculate-btn, .edit-btn {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00d4ff, #8844ff);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            width: 48%;
+            margin-right: 2%;
+        }
+
+        .edit-btn {
+            background: linear-gradient(45deg, #00ff88, #44ff88);
+            margin-right: 0;
+        }
+
+        .calculate-btn:hover, .edit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .edit-btn:hover {
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .recommendations-section {
+            background: rgba(45, 45, 45, 0.8);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(136, 68, 255, 0.3);
+        }
+
+        .level-input-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .level-input-group label {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .level-input-group input, .level-input-group select {
+            padding: 8px 12px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background: #333;
+            color: white;
+        }
+
+        .level-input-group input {
+            width: 80px;
+        }
+
+        .level-input-group select {
+            width: 200px;
+        }
+
+        .level-input-group button {
+            padding: 8px 15px;
+            background: linear-gradient(45deg, #8844ff, #aa66ff);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .recommendations-result {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .recommendation-card {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid #00d4ff;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .recommendation-card h4 {
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        .modal-content {
+            background-color: #2d2d2d;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #00d4ff;
+            border-radius: 10px;
+            width: 400px;
+            color: white;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #00d4ff;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .modal-button {
+            background: #00ff88;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .modal-button:hover {
+            background: #00cc66;
+        }
+
+        .modal-button.cancel {
+            background: #ff4444;
+        }
+
+        .modal-button.cancel:hover {
+            background: #cc3333;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+            background: rgba(45, 45, 45, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .info-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .monster-info,
+        .blessing-info {
+            background: rgba(45, 45, 45, 0.8);
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .section-title {
+            color: #00ff88;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .monster-details {
+            background: rgba(61, 61, 61, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-line;
+            min-height: 200px;
+        }
+
+        .blessing-text {
+            line-height: 1.6;
+            color: #cccccc;
+        }
+
+        .results-section {
+            background: rgba(45, 45, 45, 0.8);
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 68, 68, 0.3);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .result-card {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid;
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-per-kill {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            border-color: #00ff88;
+            color: #001a0d;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-per-kill::before {
+            content: "💚";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            opacity: 0.3;
+        }
+
+        .card-per-minute {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            border-color: #00d4ff;
+            color: #001a1a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-per-minute::before {
+            content: "⚡";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            opacity: 0.3;
+        }
+
+        .card-per-hour {
+            background: linear-gradient(135deg, #8844ff, #6622cc);
+            border-color: #8844ff;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-per-hour::before {
+            content: "🚀";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            opacity: 0.3;
+        }
+
+        .card-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-value {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .blessing-result {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 68, 68, 0.2);
+            border: 1px solid #ff4444;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #ff4444;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        /* Borda animada para a logo */
+        .animated-border {
+            position: relative;
+            display: inline-block;
+            padding: 4px;
+            border-radius: 15px;
+            background: linear-gradient(45deg, #fb0094, #0000ff, #00ff00, #ffff00, #ff0000, #fb0094, 
+                #0000ff, #00ff00, #ffff00, #ff0000);
+            background-size: 400%;
+            animation: borderAnimation 20s linear infinite;
+        }
+
+        .animated-border img {
+            display: block;
+            border-radius: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes borderAnimation {
+            0% {
+                background-position: 0 0;
+            }
+            50% {
+                background-position: 400% 0;
+            }
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Decorações flutuantes -->
+        <div class="ragnarok-decoration">⚔️</div>
+        <div class="ragnarok-decoration">🛡️</div>
+        <div class="ragnarok-decoration">🏰</div>
+        <div class="ragnarok-decoration">💎</div>
+        
+        <div class="header-banner">
+            <div class="header-content">
+                <h1 class="title">🗡️  ROX XP CALCULATOR 🗡️</h1>
+                <div class="subtitle">⚡ Next Generation Experience Calculator ⚡</div>
+                <div class="ragnarok-logo" style="margin: 20px 0;">
+                    <div id="officialLogo" style="display: flex; align-items: center; justify-content: center;">
+                        <img src="https://www.ragnarokx.net/_nuxt/img_0.CYe3hNEG.png" alt="Ragnarok X Next Generation Official Logo" 
+                             style="max-width: 400px; max-height: 150px; border-radius: 10px; 
+                                    border: 2px solid #00d4ff; box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+                                    object-fit: contain; background: rgba(0,0,0,0.3); padding: 10px;">
+                    </div>
+                </div>
+                <div style="color: #00ff88; font-weight: bold;">💎 Maximize sua Experiência com Precisão Profissional 💎</div>
+            </div>
+        </div>
+        
+        <div class="controls-section">
+            <div class="section-header">
+                <h2 style="color: #00d4ff; margin: 0;">⚙️ CONFIGURAÇÕES DE FARM ⚙️</h2>
+            </div>
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="category">Categoria do Monstro:</label>
+                    <select id="category" onchange="updateMonsterList()">
+                        <option value="pequenos">🔹 Pequenos (1 Bênção)</option>
+                        <option value="medios">🔸 Médios (2 Bênções)</option>
+                        <option value="grandes">🔺 Grandes (3 Bênções)</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="monster">Monstro:</label>
+                    <select id="monster" onchange="updateMonsterInfo()">
+                        <option value="">Selecione um monstro</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="killTime">Tempo para matar (segundos):</label>
+                    <input type="number" id="killTime" value="5" min="0.1" step="0.1">
+                </div>
+                
+                <div class="control-group">
+                    <label for="farmType">Tipo de Farm:</label>
+                    <select id="farmType">
+                        <option value="afk">⏰ Farm AFK (sem bênção)</option>
+                        <option value="odin">✨ Farm com Bênção de Odim</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="calculate-btn" onclick="calculateXP()">🧮 CALCULAR XP</button>
+            <button class="edit-btn" onclick="openEditModal()">✏️ EDITAR XP</button>
+        </div>
+        
+        <!-- Nova seção de recomendações -->
+        <div class="recommendations-section">
+            <div class="section-header">
+                <h3 style="color: #15ff00; margin: 0;">🎯 RECOMENDAÇÕES POR NÍVEL 🎯</h3>                
+            </div>
+            <div class="section-header">
+                <strong style="color: #00ff22; margin: 0;">⚠️ Selecione o monstro desejado em "Cinfigurações de Farm" e edite o tempo de matar e a xp atualizada para ter um resultado preciso!⚠️</strong>
+            </div>
+            <div class="level-input-group">
+                <label for="playerLevel">Seu Nível:</label>
+                <input type="number" id="playerLevel" min="1" max="150" value="1">
+                
+                <label for="xpType">Foco em:</label>
+                <select id="xpType">
+                    <option value="base">XP Base</option>
+                    <option value="job">XP Job</option>
+                </select>
+                
+                <button onclick="showRecommendations()">🔍 BUSCAR MELHORES OPÇÕES</button>
+            </div>
+            <div id="recommendationsResult" class="recommendations-result"></div>
+        </div>
+        
+        <div class="info-section">
+            <div class="monster-info">
+                <div class="section-title">📊 INFORMAÇÕES DO MONSTRO</div>
+                <div id="monsterDetails" class="monster-details">
+                    Selecione um monstro para ver as informações...
+                </div>
+            </div>
+            
+            <div class="blessing-info">
+                <div class="section-title">✨ SISTEMA DE BÊNÇÃOS</div>
+                <div class="blessing-text">
+                    🔹 <strong>PEQUENOS</strong>: 1 Bênção de Odim<br>
+                    🔸 <strong>MÉDIOS</strong>: 2 Bênções de Odim<br>
+                    🔺 <strong>GRANDES</strong>: 3 Bênções de Odim<br><br>
+                    
+                    💡 <strong>Farm com Bênção de Odim:</strong><br>
+                    • +5x XP Base e Job<br>
+                    • +5x Drops de itens<br><br>
+                    
+                    ⏰ <strong>Farm AFK (sem bênção):</strong><br>
+                    • XP base do monstro<br>
+                    • Calculado por tempo<br><br>
+                    
+                    🎯 <strong>Sistema de Penalização por Nível:</strong><br>
+                    • <span style="color: #00ff88;">0-3 níveis de diferença: 100% XP</span><br>
+                    • <span style="color: #ffab00;">4 níveis: 80% XP</span><br>
+                    • <span style="color: #ff8800;">5 níveis: 60% XP</span><br>
+                    • <span style="color: #ff4444;">6 níveis: 40% XP</span><br>
+                    • <span style="color: #ff0000;">7+ níveis: 20% ou menos</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-section">
+            <div class="section-title">📈 RESULTADOS DO CÁLCULO</div>
+            
+            <div class="results-grid">
+                <div class="result-card card-per-kill">
+                    <div class="card-title">XP POR MORTE</div>
+                    <div id="xpPerKill" class="card-value">Base: 0<br>Job: 0</div>
+                </div>
+                
+                <div class="result-card card-per-minute">
+                    <div class="card-title">XP POR MINUTO</div>
+                    <div id="xpPerMinute" class="card-value">Base: 0<br>Job: 0</div>
+                </div>
+                
+                <div class="result-card card-per-hour">
+                    <div class="card-title">XP POR HORA</div>
+                    <div id="xpPerHour" class="card-value">Base: 0<br>Job: 0</div>
+                </div>
+            </div>
+            
+            <div id="blessingResult" class="blessing-result" style="display: none;"></div>
+            
+            <!-- Gráfico de comparação -->
+            <div class="chart-container">
+                <h3 style="color: #00d4ff; text-align: center;">📊 GRÁFICO DE XP POR HORA</h3>
+                <canvas id="xpChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Rodapé temático -->
+        <div class="footer-section">
+            <div class="footer-content">
+                <div class="footer-text" style="text-align: center;">
+                    <h3>⚔️ RAGNAROK X NEXT GENERATION ⚔️</h3>
+                    <p>🌟 Calculadora Profissional para Otimização de XP</p>
+                    <p>💫 Desenvolvida por <strong>ZYRSHE ©</strong></p>
+                    <p style="font-size: 0.9em; color: #00d4ff;">🎯 Todos os direitos reservados.</p>
+                </div>
+                <div class="footer-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">150+</div>
+                        <div class="stat-label">Monstros</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="visitCounter">0</div>
+                        <div class="stat-label">Visitas Únicas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Disponível</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-content">
+            <br>
+            <br>
+            <h2 style="color: #00d4ff; margin: 0;"> Patrocínio & Publicidade </h2>
+                <br>
+        <div class="sponsors-grid" style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 20px; flex-wrap: wrap;">
+                <div class="sponsor-item" style="text-align: center;">
+                    <img src="https://cdn.discordapp.com/avatars/411035033869090818/9d649c67b5ec6ef3f304bb3dbf4f2597.webp?size=80" 
+                         alt="Rinalski" 
+                         style="width: 50px; height: 50px; border-radius: 10px; border: 2px solid #00d4ff; 
+                                box-shadow: 0 0 15px rgba(0, 212, 255, 0.5); object-fit: cover; aspect-ratio: 1/1;">
+                    <p style="color: #00d4ff; margin: 10px 0 0 0; font-weight: bold;">Rinalski</p>
+                </div>
+                <br>
+                <br>
+                <br>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="sponsor-message">
+                <p style="color: #ffffff; margin: 0; font-size: 12px;"> <strong>Seja um patrocinador ou divulgue sua marca para manter este site funcionando!</strong></p>
+                <p style="color: #cccccc; margin: 5px 0 0 0; font-size: 14px;">Alcance milhares de jogadores de Ragnarok X Next Generation</p>
+            
+            <div class="contact-buttons" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <a href="mailto:webcompanybr@gmail.com" 
+                   style="display: inline-block; padding: 12px 12px; background: linear-gradient(45deg, #ff6b6b, #ee5a24); 
+                          color: white; text-decoration: none; border-radius: 25px; font-weight: bold; 
+                          box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3); transition: all 0.3s ease;"
+                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(255, 107, 107, 0.4)'"
+                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(255, 107, 107, 0.3)'">
+                    📧 Contato por Email
+                </a>
+                <a href="https://discord.com/channels/@koud0" 
+                   target="_blank"
+                   style="display: inline-block; padding: 12px 25px; background: linear-gradient(45deg, #7289da, #5865f2); 
+                          color: white; text-decoration: none; border-radius: 25px; font-weight: bold; 
+                          box-shadow: 0 4px 15px rgba(114, 137, 218, 0.3); transition: all 0.3s ease;"
+                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(114, 137, 218, 0.4)'"
+                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(114, 137, 218, 0.3)'">
+                    💬 Discord
+                </a>
+            </div>
+            </div>
+    </div>
+
+    </div>
+
+    <!-- Modal de edição -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h3 style="color: #00d4ff;">✏️ Editar XP do Monstro</h3>
+            <div id="editMonsterInfo"></div>
+            <br>
+            <label>Base XP:</label>
+            <input type="number" id="editBaseXP" min="1">
+            <br>
+            <label>Job XP:</label>
+            <input type="number" id="editJobXP" min="1">
+            <br><br>
+            <button class="modal-button" onclick="saveMonsterXP()">💾 Salvar</button>
+            <button class="modal-button cancel" onclick="closeEditModal()">❌ Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de contador de visitas por IP (24h)
+        function initVisitCounter() {
+            const now = new Date().getTime();
+            const oneDay = 24 * 60 * 60 * 1000; // 24 horas em milissegundos
+            
+            // Simular IP único baseado em fingerprint do navegador
+            const userFingerprint = navigator.userAgent + navigator.language + screen.width + screen.height;
+            const userHash = btoa(userFingerprint).slice(0, 16);
+            
+            // Recuperar dados de visitas do localStorage
+            let visitData = JSON.parse(localStorage.getItem('visitCounter') || '{}');
+            
+            // Limpar visitas antigas (mais de 24h)
+            Object.keys(visitData).forEach(ip => {
+                if (now - visitData[ip] > oneDay) {
+                    delete visitData[ip];
+                }
+            });
+            
+            // Verificar se este IP já visitou nas últimas 24h
+            if (!visitData[userHash] || (now - visitData[userHash]) > oneDay) {
+                visitData[userHash] = now;
+                localStorage.setItem('visitCounter', JSON.stringify(visitData));
+            }
+            
+            // Atualizar contador na tela
+            const uniqueVisits = Object.keys(visitData).length;
+            document.getElementById('visitCounter').textContent = uniqueVisits;
+        }
+        
+        // Inicializar contador quando a página carregar
+        window.addEventListener('load', initVisitCounter);
+        
+        // Mapeamento de nomes dos monstros para português brasileiro
+        const monsterNamesPT = {
+            'Poring': 'Poring',
+            'Fabre': 'Fabre',
+            'Pupa': 'Pupa',
+            'Lunatic': 'Lunático',
+            'Pecopeco Egg': 'Ovo de Pecopeco',
+            'Picky': 'Picky',
+            'Willow': 'Salgueiro',
+            'Roda Frog': 'Sapo Roda',
+            'Picky (Shell)': 'Picky (Casca)',
+            'Condor': 'Condor',
+            'Poporing': 'Poporing',
+            'Chonchon': 'Chonchon',
+            'Thief Bug Egg': 'Ovo de Besouro-Ladrão',
+            'Spore': 'Esporo',
+            'Thief Bug': 'Besouro-Ladrão',
+            'Savage Bebe': 'Selvagem Bebê',
+            'Familiar': 'Familiar',
+            'Baby Desert Wolf': 'Filhote de Lobo do Deserto',
+            'Rocker': 'Gafanhoto',
+            'Wolf': 'Lobo',
+            'Plankton': 'Plâncton',
+            'Hornet': 'Vespa',
+            'Tarou': 'Tarou',
+            'Ambernite': 'Ambernite',
+            'Ant Egg': 'Ovo de Formiga',
+            'Skeleton': 'Esqueleto',
+            'Creamy': 'Creamy',
+            'Zombie': 'Zumbi',
+            'Steel Chonchon': 'Chonchon de Aço',
+            'Drainliar': 'Drainliar',
+            'Coco': 'Coco',
+            'Stainer': 'Stainer',
+            'Dustiness': 'Poeira',
+            'Smokie': 'Fumacento',
+            'Munak': 'Munak',
+            'Caramel': 'Caramelo',
+            'Dead Plankton': 'Plâncton Morto',
+            'Kukre': 'Kukre',
+            'Hydra': 'Hidra',
+            'Martin': 'Martin',
+            'Yoyo': 'Yoyo',
+            'Giearth': 'Giearth',
+            'Drops': 'Drops',
+            'Hunter Fly': 'Mosca Caçadora',
+            'Whisper': 'Sussurro',
+            'Poison Spore': 'Esporo de Veneno',
+            'Flora': 'Flora',
+            'Menblatt': 'Menblatt',
+            'Elder Willow': 'Salgueiro Ancião',
+            'Scorpion': 'Escorpião',
+            'Bongun': 'Bongun',
+            'Ant Larva': 'Larva da Formiga',
+            'Magnolia': 'Magnolia',
+            'Metaller': 'Metaller',
+            'Andre': 'Andre',
+            'Piere': 'Piere',
+            'Vadon': 'Vadon',
+            'Marina': 'Marina',
+            'Deniro': 'Deniro',
+            'Vitata': 'Vitata',
+            'Cornutus': 'Cornutus',
+            'Soldier Skeleton': 'Esqueleto Soldado',
+            'Obeaune': 'Obeaune',
+            'Marine Sphere': 'Esfera Marinha',
+            'Marc': 'Marc',
+            'Marse': 'Marse',
+            'Arclouze': 'Arclouze',
+            'Sword Fish': 'Peixe-espada',
+            'Goblin': 'Goblin',
+            'Strouf': 'Strouf',
+            'Mummy': 'Múmia',
+            'Verit': 'Verit',
+            'Archer Skeleton': 'Esqueleto Arqueiro',
+            'Pasana': 'Pasana',
+            'Isis': 'Isis',
+            'Nine Tail': 'Nove Caudas',
+            'Horong': 'Horong',
+            'Orc Baby': 'Bebê Orc',
+            'Jakk': 'Jakk',
+            'Baphomet Jr': 'Baphomet Jr.',
+            'Goblin Archer': 'Arqueiro Goblin',
+            'Carat': 'Carat',
+            'Kobold Archer': 'Arqueiro Kobold',
+            'Deviruchi': 'Deviruchi',
+            'Marionet': 'Marionete',
+            'Punk': 'Punk',
+            'Dark Frame': 'Moldura Sombria',
+            'Mandragora': 'Mandrágora',
+            'Female Thief Bug': 'Besouro-Ladrão Fêmea',
+            'Male Thief Bug': 'Besouro-Ladrão Macho',
+            'Vocal': 'Vocal',
+            'Horn': 'Chifre',
+            'Axe-Wielding Skeleton Pirate': 'Esqueleto Pirata com Machado',
+            'Pirate Skeleton': 'Esqueleto Pirata',
+            'Dagger-Wielding Skel Pirate': 'Esqueleto Pirata com Adaga',
+            'Skeleton Worker': 'Esqueleto Operário',
+            'Mantis': 'Mantis',
+            'Anacondaq': 'Anaconda',
+            'Side Winder': 'Sorrateiro',
+            'Matyr': 'Matyr',
+            'Hode': 'Hode',
+            'Desert Wolf': 'Lobo do Deserto',
+            'Phen': 'Fen',
+            'Wormtail': 'Rabo-de-verme'
+        };
+
+        // Dados dos monstros (baseado no site)
+                        const monsters = {
+            'pequenos': [
+                {name: 'Poring', level: 1, base_xp: 32, job_xp: 32, odin_base: 192, odin_job: 192, location: 'Prontera South Gate', size: 'Medium', element: 'Water'},
+                {name: 'Fabre', level: 2, base_xp: 17, job_xp: 17, odin_base: 102, odin_job: 102, location: 'Prontera South Gate', size: 'Small', element: 'Earth'},
+                {name: 'Pupa', level: 3, base_xp: 18, job_xp: 18, odin_base: 108, odin_job: 108, location: 'Prontera South Gate', size: 'Small', element: 'Earth'},
+                {name: 'Lunatic', level: 4, base_xp: 19, job_xp: 19, odin_base: 114, odin_job: 114, location: 'Prontera South Gate', size: 'Small', element: 'Neutral'},
+                {name: 'Pecopeco Egg', level: 5, base_xp: 20, job_xp: 20, odin_base: 120, odin_job: 120, location: 'Morroc', size: 'Small', element: 'Neutral'},
+                {name: 'Picky', level: 6, base_xp: 21, job_xp: 21, odin_base: 126, odin_job: 126, location: 'Morroc', size: 'Small', element: 'Fire'},
+                {name: 'Willow', level: 7, base_xp: 22, job_xp: 22, odin_base: 132, odin_job: 132, location: 'Payon', size: 'Medium', element: 'Earth'},
+                {name: 'Roda Frog', level: 8, base_xp: 23, job_xp: 23, odin_base: 138, odin_job: 138, location: 'Mjolnir Mountains', size: 'Medium', element: 'Water'},
+                {name: 'Picky (Shell)', level: 9, base_xp: 24, job_xp: 24, odin_base: 144, odin_job: 144, location: 'Morroc', size: 'Small', element: 'Fire'},
+                {name: 'Condor', level: 10, base_xp: 25, job_xp: 25, odin_base: 150, odin_job: 150, location: 'Morroc', size: 'Medium', element: 'Wind'},
+                {name: 'Poporing', level: 11, base_xp: 40, job_xp: 13, odin_base: 240, odin_job: 78, location: 'Prontera West', size: 'Medium', element: 'Poison'},
+                {name: 'Chonchon', level: 12, base_xp: 41, job_xp: 14, odin_base: 246, odin_job: 84, location: 'Morroc', size: 'Small', element: 'Wind'},
+                {name: 'Thief Bug Egg', level: 13, base_xp: 28, job_xp: 28, odin_base: 168, odin_job: 168, location: 'Capital Sewer 1F', size: 'Small', element: 'Shadow'},
+                {name: 'Spore', level: 14, base_xp: 29, job_xp: 29, odin_base: 174, odin_job: 174, location: 'Payon Cave', size: 'Medium', element: 'Plant'},
+                {name: 'Thief Bug', level: 15, base_xp: 23, job_xp: 38, odin_base: 138, odin_job: 228, location: 'Capital Sewer 1F', size: 'Small', element: 'Neutral'},
+                {name: 'Savage Bebe', level: 16, base_xp: 31, job_xp: 31, odin_base: 186, odin_job: 186, location: 'Prontera West Gate', size: 'Small', element: 'Earth'},
+                {name: 'Familiar', level: 17, base_xp: 32, job_xp: 32, odin_base: 192, odin_job: 192, location: 'Capital Sewer 1F', size: 'Small', element: 'Shadow'},
+                {name: 'Baby Desert Wolf', level: 18, base_xp: 33, job_xp: 33, odin_base: 198, odin_job: 198, location: 'Morroc', size: 'Small', element: 'Fire'},
+                {name: 'Rocker', level: 19, base_xp: 34, job_xp: 34, odin_base: 204, odin_job: 204, location: 'Prontera', size: 'Medium', element: 'Earth'},
+                {name: 'Wolf', level: 20, base_xp: 35, job_xp: 35, odin_base: 210, odin_job: 210, location: 'Payon', size: 'Medium', element: 'Earth'},
+                {name: 'Plankton', level: 21, base_xp: 45, job_xp: 27, odin_base: 270, odin_job: 162, location: 'Capital Sewer 1F', size: 'Small', element: 'Water'},
+                {name: 'Hornet', level: 22, base_xp: 37, job_xp: 37, odin_base: 222, odin_job: 222, location: 'Mjolnir Mountains', size: 'Small', element: 'Wind'},
+                {name: 'Tarou', level: 23, base_xp: 29, job_xp: 48, odin_base: 174, odin_job: 288, location: 'Capital Sewer 1F', size: 'Small', element: 'Shadow'},
+                {name: 'Ambernite', level: 24, base_xp: 39, job_xp: 39, odin_base: 234, odin_job: 234, location: 'Mjolnir Mountains', size: 'Large', element: 'Water'},
+                {name: 'Ant Egg', level: 25, base_xp: 40, job_xp: 40, odin_base: 240, odin_job: 240, location: 'Ant Hell', size: 'Medium', element: 'Neutral'},
+                {name: 'Skeleton', level: 26, base_xp: 41, job_xp: 41, odin_base: 246, odin_job: 246, location: 'Payon Cave', size: 'Medium', element: 'Undead'},
+                {name: 'Creamy', level: 27, base_xp: 63, job_xp: 21, odin_base: 378, odin_job: 126, location: 'Mjolnir Mountains', size: 'Small', element: 'Wind'},
+                {name: 'Zombie', level: 28, base_xp: 43, job_xp: 43, odin_base: 258, odin_job: 258, location: 'Payon Cave', size: 'Medium', element: 'Undead'},
+                {name: 'Steel Chonchon', level: 29, base_xp: 55, job_xp: 33, odin_base: 330, odin_job: 198, location: 'Labyrinth Forest', size: 'Small', element: 'Wind'},
+                {name: 'Drainliar', level: 30, base_xp: 34, job_xp: 56, odin_base: 204, odin_job: 336, location: 'Capital Sewer 2F', size: 'Small', element: 'Shadow'},
+                {name: 'Coco', level: 31, base_xp: 46, job_xp: 46, odin_base: 276, odin_job: 276, location: 'Labyrinth Forest', size: 'Small', element: 'Earth'},
+                {name: 'Stainer', level: 31, base_xp: 46, job_xp: 46, odin_base: 276, odin_job: 276, location: 'Mjolnir Mountains', size: 'Small', element: 'Wind'},
+                {name: 'Dustiness', level: 32, base_xp: 35, job_xp: 59, odin_base: 210, odin_job: 354, location: 'Mjolnir Mountains', size: 'Small', element: 'Wind'},
+                {name: 'Smokie', level: 32, base_xp: 71, job_xp: 24, odin_base: 426, odin_job: 144, location: 'Labyrinth Forest', size: 'Small', element: 'Earth'},
+                {name: 'Munak', level: 33, base_xp: 47, job_xp: 47, odin_base: 282, odin_job: 282, location: 'Payon Cave', size: 'Medium', element: 'Undead'},
+                {name: 'Caramel', level: 34, base_xp: 25, job_xp: 74, odin_base: 150, odin_job: 444, location: 'Mjolnir Mountains', size: 'Small', element: 'Earth'},
+                {name: 'Dead Plankton', level: 34, base_xp: 49, job_xp: 49, odin_base: 294, odin_job: 294, location: 'Shipwreck 1F, 2F, 3F', size: 'Small', element: 'Undead'},
+                {name: 'Kukre', level: 35, base_xp: 50, job_xp: 50, odin_base: 300, odin_job: 300, location: 'Treasure Ship 1F, 2F, 3F', size: 'Small', element: 'Water'},
+                {name: 'Hydra', level: 36, base_xp: 64, job_xp: 38, odin_base: 384, odin_job: 228, location: 'Treasure Ship 1F, 2F, 3F', size: 'Small', element: 'Water'},
+                {name: 'Martin', level: 37, base_xp: 26, job_xp: 78, odin_base: 156, odin_job: 468, location: 'Mjolnir Dead Pit 1F', size: 'Small', element: 'Earth'},
+                {name: 'Yoyo', level: 37, base_xp: 78, job_xp: 26, odin_base: 468, odin_job: 156, location: 'Labyrinth Forest', size: 'Small', element: 'Earth'},
+                {name: 'Giearth', level: 38, base_xp: 53, job_xp: 53, odin_base: 318, odin_job: 318, location: 'Mjolnir Dead Pit 1F', size: 'Small', element: 'Earth'},
+                {name: 'Drops', level: 39, base_xp: 54, job_xp: 54, odin_base: 324, odin_job: 324, location: 'Mjolnir Mountains', size: 'Medium', element: 'Fire'},
+                {name: 'Hunter Fly', level: 40, base_xp: 69, job_xp: 41, odin_base: 414, odin_job: 246, location: 'Labyrinth Forest', size: 'Small', element: 'Wind'},
+                {name: 'Whisper', level: 41, base_xp: 43, job_xp: 71, odin_base: 258, odin_job: 426, location: 'Treasure Ship 1F, 2F, 3F', size: 'Small', element: 'Ghost'},
+                {name: 'Poison Spore', level: 42, base_xp: 57, job_xp: 57, odin_base: 342, odin_job: 342, location: 'Geffen Tower', size: 'Medium', element: 'Poison'},
+                {name: 'Flora', level: 43, base_xp: 58, job_xp: 58, odin_base: 348, odin_job: 348, location: 'Labyrinth Forest', size: 'Large', element: 'Earth'},
+                {name: 'Menblatt', level: 44, base_xp: 59, job_xp: 59, odin_base: 354, odin_job: 354, location: 'Labyrinth Forest', size: 'Medium', element: 'Wind'},
+                {name: 'Elder Willow', level: 45, base_xp: 66, job_xp: 40, odin_base: 396, odin_job: 240, location: 'Payon', size: 'Medium', element: 'Fire'},
+                {name: 'Scorpion', level: 46, base_xp: 67, job_xp: 67, odin_base: 402, odin_job: 402, location: 'Sograt Desert', size: 'Small', element: 'Fire'},
+                {name: 'Bongun', level: 47, base_xp: 62, job_xp: 62, odin_base: 372, odin_job: 372, location: 'Payon Cave', size: 'Medium', element: 'Undead'},
+                {name: 'Ant Larva', level: 48, base_xp: 71, job_xp: 71, odin_base: 426, odin_job: 426, location: 'Ant Cavern', size: 'Small', element: 'Neutral'},
+                {name: 'Magnolia', level: 48, base_xp: 89, job_xp: 53, odin_base: 534, odin_job: 318, location: 'Sograt Desert', size: 'Small', element: 'Water'},
+                {name: 'Metaller', level: 49, base_xp: 64, job_xp: 64, odin_base: 384, odin_job: 384, location: 'Einbroch', size: 'Medium', element: 'Fire'},
+                {name: 'Andre', level: 50, base_xp: 75, job_xp: 75, odin_base: 450, odin_job: 450, location: 'Ant Cavern', size: 'Small', element: 'Earth'},
+                {name: 'Piere', level: 51, base_xp: 77, job_xp: 77, odin_base: 462, odin_job: 462, location: 'Ant Cavern', size: 'Small', element: 'Earth'},
+                {name: 'Vadon', level: 52, base_xp: 59, job_xp: 99, odin_base: 354, odin_job: 594, location: 'Underwater Cave', size: 'Small', element: 'Water'},
+                {name: 'Marina', level: 53, base_xp: 61, job_xp: 101, odin_base: 366, odin_job: 606, location: 'Underwater Cave', size: 'Small', element: 'Water'},
+                {name: 'Deniro', level: 54, base_xp: 83, job_xp: 83, odin_base: 498, odin_job: 498, location: 'Ant Cavern', size: 'Small', element: 'Earth'},
+                {name: 'Vitata', level: 55, base_xp: 43, job_xp: 128, odin_base: 258, odin_job: 768, location: 'Ant Cavern', size: 'Small', element: 'Earth'},
+                {name: 'Cornutus', level: 55, base_xp: 64, job_xp: 106, odin_base: 384, odin_job: 636, location: 'Underwater Cave', size: 'Small', element: 'Water'},
+                {name: 'Soldier Skeleton', level: 56, base_xp: 85, job_xp: 85, odin_base: 510, odin_job: 510, location: 'Payon Cave', size: 'Medium', element: 'Undead'},
+                {name: 'Obeaune', level: 57, base_xp: 87, job_xp: 87, odin_base: 522, odin_job: 522, location: 'Underwater Cave', size: 'Medium', element: 'Water'},
+                {name: 'Marine Sphere', level: 58, base_xp: 91, job_xp: 91, odin_base: 546, odin_job: 546, location: 'Underwater Cave', size: 'Small', element: 'Water'},
+                {name: 'Marc', level: 59, base_xp: 93, job_xp: 93, odin_base: 558, odin_job: 558, location: 'Underwater Cave', size: 'Medium', element: 'Water'},
+                {name: 'Marse', level: 60, base_xp: 95, job_xp: 95, odin_base: 570, odin_job: 570, location: 'Underwater Temple', size: 'Small', element: 'Water'},
+                {name: 'Arclouze', level: 61, base_xp: 123, job_xp: 74, odin_base: 738, odin_job: 444, location: 'Pyramid 2F', size: 'Small', element: 'Earth'},
+                {name: 'Sword Fish', level: 62, base_xp: 99, job_xp: 99, odin_base: 594, odin_job: 594, location: 'Underwater Cave', size: 'Large', element: 'Water'},
+                {name: 'Goblin', level: 63, base_xp: 101, job_xp: 101, odin_base: 606, odin_job: 606, location: 'Goblin Village', size: 'Medium', element: 'Wind'},
+                {name: 'Strouf', level: 64, base_xp: 103, job_xp: 103, odin_base: 618, odin_job: 618, location: 'Underwater Cave', size: 'Large', element: 'Water'},
+                {name: 'Mummy', level: 65, base_xp: 105, job_xp: 105, odin_base: 630, odin_job: 630, location: 'Pyramid', size: 'Medium', element: 'Undead'},
+                {name: 'Verit', level: 66, base_xp: 107, job_xp: 107, odin_base: 642, odin_job: 642, location: 'Pyramid', size: 'Medium', element: 'Undead'},
+                {name: 'Archer Skeleton', level: 67, base_xp: 109, job_xp: 109, odin_base: 654, odin_job: 654, location: 'Payon Cave', size: 'Medium', element: 'Undead'},
+                {name: 'Pasana', level: 68, base_xp: 111, job_xp: 111, odin_base: 666, odin_job: 666, location: 'Pyramid', size: 'Medium', element: 'Fire'},
+                {name: 'Isis', level: 69, base_xp: 113, job_xp: 113, odin_base: 678, odin_job: 678, location: 'Pyramid', size: 'Large', element: 'Shadow'},
+                {name: 'Nine Tail', level: 70, base_xp: 125, job_xp: 125, odin_base: 750, odin_job: 750, location: 'Payon West', size: 'Small', element: 'Fire'},
+                {name: 'Horong', level: 71, base_xp: 128, job_xp: 128, odin_base: 768, odin_job: 768, location: 'Munak Cave 2F', size: 'Small', element: 'Fire'},
+                {name: 'Orc Baby', level: 72, base_xp: 131, job_xp: 131, odin_base: 786, odin_job: 786, location: 'Orc Village', size: 'Small', element: 'Earth'},
+                {name: 'Jakk', level: 74, base_xp: 206, job_xp: 69, odin_base: 1236, odin_job: 414, location: 'Geffen Dungeon 1F', size: 'Small', element: 'Fire'},
+                {name: 'Baphomet Jr', level: 80, base_xp: 78, job_xp: 233, odin_base: 468, odin_job: 1398, location: 'Labyrinth Forest', size: 'Small', element: 'Shadow'},
+                {name: 'Goblin Archer', level: 81, base_xp: 119, job_xp: 198, odin_base: 714, odin_job: 1188, location: 'Goblin Forest', size: 'Small', element: 'Poison'},
+                {name: 'Carat', level: 81, base_xp: 158, job_xp: 158, odin_base: 948, odin_job: 948, location: 'Glast Heim', size: 'Small', element: 'Wind'},
+                {name: 'Kobold Archer', level: 82, base_xp: 161, job_xp: 161, odin_base: 966, odin_job: 966, location: 'Kordt Forest', size: 'Small', element: 'Fire'},
+                {name: 'Deviruchi', level: 83, base_xp: 246, job_xp: 82, odin_base: 1476, odin_job: 492, location: 'Geffen Dungeon 2F', size: 'Small', element: 'Shadow'},
+                {name: 'Marionet', level: 78, base_xp: 149, job_xp: 149, odin_base: 894, odin_job: 894, location: 'Geffen Dungeon 1F', size: 'Small', element: 'Ghost'},
+                {name: 'Punk', level: 95, base_xp: 150, job_xp: 250, odin_base: 900, odin_job: 1500, location: 'Clock Tower 1F', size: 'Small', element: 'Wind'},
+                {name: 'Dark Frame', level: 97, base_xp: 206, job_xp: 206, odin_base: 1236, odin_job: 1236, location: 'Clock Tower 1F', size: 'Small', element: 'Shadow'},
+            ],
+            'medios': [
+                {name: 'Drops', level: 7, base_xp: 33, job_xp: 55, odin_base: 198, odin_job: 330, location: 'Morroc', size: 'Medium', element: 'Fire'},
+                {name: 'Condor', level: 8, base_xp: 46, job_xp: 46, odin_base: 276, odin_job: 276, location: 'Prontera South Gate', size: 'Medium', element: 'Wind'},
+                {name: 'Willow', level: 10, base_xp: 50, job_xp: 50, odin_base: 300, odin_job: 300, location: 'Payon South', size: 'Medium', element: 'Earth'},
+                {name: 'Rocker', level: 11, base_xp: 78, job_xp: 26, odin_base: 468, odin_job: 156, location: 'Prontera West Gate', size: 'Medium', element: 'Earth'},
+                {name: 'Mandragora', level: 14, base_xp: 44, job_xp: 73, odin_base: 264, odin_job: 438, location: 'Prontera West Gate', size: 'Medium', element: 'Earth'},
+                {name: 'Female Thief Bug', level: 19, base_xp: 68, job_xp: 68, odin_base: 408, odin_job: 408, location: 'Capital Sewer 1F', size: 'Medium', element: 'Shadow'},
+                {name: 'Poporing', level: 20, base_xp: 70, job_xp: 70, odin_base: 420, odin_job: 420, location: 'Payon South', size: 'Medium', element: 'Poison'},
+                {name: 'Male Thief Bug', level: 25, base_xp: 60, job_xp: 100, odin_base: 360, odin_job: 600, location: 'Capital Sewer 2F', size: 'Medium', element: 'Shadow'},
+                {name: 'Spore', level: 26, base_xp: 62, job_xp: 103, odin_base: 372, odin_job: 618, location: 'Payon South', size: 'Medium', element: 'Water'},
+                {name: 'Poison Spore', level: 28, base_xp: 43, job_xp: 129, odin_base: 258, odin_job: 774, location: 'Capital Sewer 2F', size: 'Medium', element: 'Poison'},
+                {name: 'Roda Frog', level: 33, base_xp: 48, job_xp: 144, odin_base: 288, odin_job: 864, location: 'Shipwreck 1F, 2F, 3F', size: 'Medium', element: 'Water'},
+                {name: 'Vocal', level: 33, base_xp: 144, job_xp: 48, odin_base: 864, odin_job: 288, location: 'Labyrinth Forest', size: 'Medium', element: 'Earth'},
+                {name: 'Zombie', level: 35, base_xp: 125, job_xp: 75, odin_base: 750, odin_job: 450, location: 'Shipwreck 1F, 2F, 3F', size: 'Medium', element: 'Undead'},
+                {name: 'Horn', level: 36, base_xp: 128, job_xp: 77, odin_base: 768, odin_job: 462, location: 'Labyrinth Forest', size: 'Medium', element: 'Earth'},
+                {name: 'Axe-Wielding Skeleton Pirate', level: 38, base_xp: 106, job_xp: 106, odin_base: 636, odin_job: 636, location: 'Shipwreck 1F, 2F, 3F', size: 'Medium', element: 'Undead'},
+                {name: 'Pirate Skeleton', level: 39, base_xp: 108, job_xp: 108, odin_base: 648, odin_job: 648, location: 'Treasure Ship 1F, 2F, 3F', size: 'Medium', element: 'Undead'},
+                {name: 'Dagger-Wielding Skel Pirate', level: 39, base_xp: 162, job_xp: 54, odin_base: 972, odin_job: 324, location: 'Shipwreck 1F, 2F, 3F', size: 'Medium', element: 'Undead'},
+                {name: 'Skeleton Worker', level: 40, base_xp: 110, job_xp: 110, odin_base: 660, odin_job: 660, location: 'Mjolnir Dead Pit 1F', size: 'Medium', element: 'Undead'},
+                {name: 'Mantis', level: 43, base_xp: 122, job_xp: 122, odin_base: 732, odin_job: 732, location: 'Labyrinth Forest', size: 'Medium', element: 'Earth'},
+                {name: 'Metaller', level: 44, base_xp: 158, job_xp: 95, odin_base: 948, odin_job: 570, location: 'Morroc', size: 'Medium', element: 'Fire'},
+                {name: 'Anacondaq', level: 45, base_xp: 65, job_xp: 195, odin_base: 390, odin_job: 1170, location: 'Morroc', size: 'Medium', element: 'Poison'},
+                {name: 'Side Winder', level: 47, base_xp: 138, job_xp: 138, odin_base: 828, odin_job: 828, location: 'Pyramid 1F', size: 'Medium', element: 'Poison'},
+                {name: 'Matyr', level: 49, base_xp: 146, job_xp: 146, odin_base: 876, odin_job: 876, location: 'Pyramid 1F', size: 'Medium', element: 'Shadow'},
+                {name: 'Hode', level: 49, base_xp: 146, job_xp: 146, odin_base: 876, odin_job: 876, location: 'Sograt Desert', size: 'Medium', element: 'Earth'},
+                {name: 'Desert Wolf', level: 50, base_xp: 113, job_xp: 188, odin_base: 678, odin_job: 1128, location: 'Sograt Desert', size: 'Medium', element: 'Fire'},
+                {name: 'Soldier Skeleton', level: 51, base_xp: 193, job_xp: 116, odin_base: 1158, odin_job: 696, location: 'Pyramid 1F', size: 'Medium', element: 'Undead'},
+                {name: 'Archer Skeleton', level: 53, base_xp: 122, job_xp: 203, odin_base: 732, odin_job: 1218, location: 'Pyramid 1F', size: 'Medium', element: 'Undead'},
+                {name: 'Frilldora', level: 54, base_xp: 166, job_xp: 166, odin_base: 996, odin_job: 996, location: 'Sograt Desert', size: 'Medium', element: 'Fire'},
+                {name: 'Phen', level: 56, base_xp: 131, job_xp: 218, odin_base: 786, odin_job: 1308, location: 'Underwater Cave', size: 'Medium', element: 'Water'},
+                {name: 'Mummy', level: 56, base_xp: 261, job_xp: 87, odin_base: 1566, odin_job: 522, location: 'Pyramid 1F', size: 'Medium', element: 'Undead'},
+                {name: 'Verit', level: 57, base_xp: 178, job_xp: 178, odin_base: 1068, odin_job: 1068, location: 'Pyramid 2F', size: 'Medium', element: 'Undead'},
+                {name: 'Obeaune', level: 61, base_xp: 147, job_xp: 245, odin_base: 882, odin_job: 1470, location: 'Underwater Temple', size: 'Medium', element: 'Water'},
+                {name: 'Wormtail', level: 62, base_xp: 202, job_xp: 202, odin_base: 1212, odin_job: 1212, location: 'Payon South', size: 'Medium', element: 'Earth'},
+                {name: 'Requiem', level: 62, base_xp: 253, job_xp: 152, odin_base: 1518, odin_job: 912, location: 'Sphinx Cavern', size: 'Medium', element: 'Shadow'},
+                {name: 'Snake', level: 63, base_xp: 104, job_xp: 312, odin_base: 624, odin_job: 1872, location: 'Payon West', size: 'Medium', element: 'Earth'},
+                {name: 'Wolf', level: 64, base_xp: 268, job_xp: 161, odin_base: 1608, odin_job: 966, location: 'Payon West', size: 'Medium', element: 'Earth'},
+                {name: 'Zerom', level: 60, base_xp: 238, job_xp: 143, odin_base: 1428, odin_job: 858, location: 'Sphinx Cavern', size: 'Medium', element: 'Fire'},
+                {name: 'Skeleton', level: 65, base_xp: 220, job_xp: 220, odin_base: 1320, odin_job: 1320, location: 'Munak Cave 1F', size: 'Medium', element: 'Undead'},
+                {name: 'Munak', level: 66, base_xp: 226, job_xp: 226, odin_base: 1356, odin_job: 1356, location: 'Munak Cave 1F', size: 'Medium', element: 'Undead'},
+                {name: 'Bongun', level: 67, base_xp: 232, job_xp: 232, odin_base: 1392, odin_job: 1392, location: 'Munak Cave 1F', size: 'Medium', element: 'Undead'},
+                {name: 'Dokebi', level: 68, base_xp: 149, job_xp: 89, odin_base: 894, odin_job: 534, location: 'Munak Cave 1F', size: 'Small', element: 'Shadow'},
+                {name: 'Deviace', level: 69, base_xp: 61, job_xp: 184, odin_base: 366, odin_job: 1098, location: 'Underwater Temple', size: 'Small', element: 'Water'},
+                {name: 'Sohee', level: 69, base_xp: 244, job_xp: 244, odin_base: 1464, odin_job: 1464, location: 'Munak Cave 2F', size: 'Medium', element: 'Water'},
+                {name: 'Eggyra', level: 70, base_xp: 125, job_xp: 375, odin_base: 750, odin_job: 2250, location: 'Payon East Forest', size: 'Medium', element: 'Ghost'},
+                {name: 'Flail-wielding Goblin', level: 71, base_xp: 320, job_xp: 192, odin_base: 1920, odin_job: 1152, location: 'Goblin Forest', size: 'Medium', element: 'Fire'},
+                {name: 'Mace-Wielding Goblin', level: 73, base_xp: 268, job_xp: 268, odin_base: 1608, odin_job: 1608, location: 'Goblin Forest', size: 'Medium', element: 'Water'},
+                {name: 'Mace-Wielding Kobold', level: 73, base_xp: 335, job_xp: 201, odin_base: 2010, odin_job: 1206, location: 'Kordt Forest', size: 'Medium', element: 'Fire'},
+                {name: 'Skeleton General', level: 74, base_xp: 274, job_xp: 274, odin_base: 1644, odin_job: 1644, location: 'Munak Cave 2F', size: 'Medium', element: 'Undead'},
+                {name: 'Hammer-Wielding Goblin', level: 75, base_xp: 350, job_xp: 210, odin_base: 2100, odin_job: 1260, location: 'Goblin Forest', size: 'Medium', element: 'Earth'},
+                {name: 'Hammer-Wielding Kobold', level: 76, base_xp: 286, job_xp: 286, odin_base: 1716, odin_job: 1716, location: 'Kordt Forest', size: 'Medium', element: 'Poison'},
+                {name: 'Axe-Wielding Goblin', level: 77, base_xp: 292, job_xp: 292, odin_base: 1752, odin_job: 1752, location: 'Goblin Forest', size: 'Medium', element: 'Poison'},
+                {name: 'Ghoul', level: 77, base_xp: 292, job_xp: 292, odin_base: 1752, odin_job: 1752, location: 'Geffen Dungeon 1F', size: 'Medium', element: 'Undead'},
+                {name: 'Dagger-Wielding Goblin', level: 79, base_xp: 304, job_xp: 304, odin_base: 1824, odin_job: 1824, location: 'Goblin Forest', size: 'Medium', element: 'Wind'},
+                {name: 'Ground Petite', level: 79, base_xp: 304, job_xp: 304, odin_base: 1824, odin_job: 1824, location: 'Mjolnir Mountains', size: 'Medium', element: 'Earth'},
+                {name: 'Orc Lady', level: 83, base_xp: 328, job_xp: 328, odin_base: 1968, odin_job: 1968, location: 'Orc Village', size: 'Medium', element: 'Earth'},
+                {name: 'Zenorc', level: 84, base_xp: 334, job_xp: 334, odin_base: 2004, odin_job: 2004, location: 'Orc Dungeon', size: 'Medium', element: 'Shadow'},
+                {name: 'Goblin Steamrider', level: 85, base_xp: 170, job_xp: 510, odin_base: 1020, odin_job: 3060, location: 'Goblin Forest', size: 'Medium', element: 'Wind'},
+                {name: 'Axe-Wielding Kobold', level: 85, base_xp: 340, job_xp: 340, odin_base: 2040, odin_job: 2040, location: 'Kordt Forest', size: 'Medium', element: 'Wind'},
+                {name: 'Orc Archer', level: 88, base_xp: 358, job_xp: 358, odin_base: 2148, odin_job: 2148, location: 'Orc Dungeon', size: 'Medium', element: 'Earth'},
+                {name: 'Wind Ghost', level: 89, base_xp: 546, job_xp: 182, odin_base: 3276, odin_job: 1092, location: 'Geffen Dungeon 2F', size: 'Medium', element: 'Wind'},
+                {name: 'Zombie Prisoner', level: 89, base_xp: 182, job_xp: 546, odin_base: 1092, odin_job: 3276, location: 'Glast Heim Prison', size: 'Medium', element: 'Undead'},
+                {name: 'Injustice', level: 92, base_xp: 478, job_xp: 287, odin_base: 2868, odin_job: 1722, location: 'Glast Heim Prison', size: 'Medium', element: 'Shadow'},
+                {name: 'Skeleton Prisoner', level: 93, base_xp: 388, job_xp: 388, odin_base: 2328, odin_job: 2328, location: 'Glast Heim Prison', size: 'Medium', element: 'Undead'},
+                {name: 'Bathory', level: 93, base_xp: 485, job_xp: 291, odin_base: 2910, odin_job: 1746, location: 'Clock Tower 2F', size: 'Medium', element: 'Shadow'},
+                {name: 'Alarm', level: 94, base_xp: 296, job_xp: 493, odin_base: 1776, odin_job: 2958, location: 'Clock Tower B2', size: 'Medium', element: 'Neutral'},
+                {name: 'Raydric', level: 82, base_xp: 242, job_xp: 403, odin_base: 1452, odin_job: 2418, location: 'Glast Heim St. Abbey', size: 'Medium', element: 'Shadow'},
+                {name: 'Raydric Archer', level: 95, base_xp: 400, job_xp: 400, odin_base: 2400, odin_job: 2400, location: 'Glast Heim St. Abbey', size: 'Medium', element: 'Shadow'},
+                {name: 'Joker', level: 96, base_xp: 761, job_xp: 457, odin_base: 4566, odin_job: 2742, location: 'Clock Tower 2F', size: 'Large', element: 'Wind'},
+                {name: 'Wanderer', level: 98, base_xp: 209, job_xp: 627, odin_base: 1254, odin_job: 3762, location: 'Clock Tower 2F', size: 'Medium', element: 'Wind'},
+                {name: 'Clock', level: 99, base_xp: 636, job_xp: 212, odin_base: 3816, odin_job: 1272, location: 'Clock Tower B2', size: 'Medium', element: 'Earth'},
+                {name: 'Zherlthsh/Zealotus', level: 99, base_xp: 424, job_xp: 424, odin_base: 2544, odin_job: 2544, location: 'Clock Tower 2F', size: 'Medium', element: 'Neutral'},
+            ],
+            'grandes': [
+                {name: 'Ambernite', level: 24, base_xp: 176, job_xp: 59, odin_base: 1056, odin_job: 354, location: 'Mjolnir Mountains', size: 'Large', element: 'Water'},
+                {name: 'Myst', level: 41, base_xp: 214, job_xp: 128, odin_base: 1284, odin_job: 768, location: 'Mjolnir Dead Pit 1F', size: 'Large', element: 'Poison'},
+                {name: 'Argos', level: 42, base_xp: 133, job_xp: 221, odin_base: 798, odin_job: 1326, location: 'Mjolnir Mountains', size: 'Large', element: 'Poison'},
+                {name: 'Muka', level: 42, base_xp: 221, job_xp: 133, odin_base: 1326, odin_job: 798, location: 'Morroc', size: 'Large', element: 'Earth'},
+                {name: 'Pecopeco', level: 43, base_xp: 275, job_xp: 92, odin_base: 1650, odin_job: 552, location: 'Morroc', size: 'Large', element: 'Fire'},
+                {name: 'Savage', level: 44, base_xp: 142, job_xp: 236, odin_base: 852, odin_job: 1416, location: 'Labyrinth Forest', size: 'Large', element: 'Earth'},
+                {name: 'Flora', level: 45, base_xp: 195, job_xp: 195, odin_base: 1170, odin_job: 1170, location: 'Mjolnir Mountains', size: 'Large', element: 'Earth'},
+                {name: 'Sasquatch', level: 46, base_xp: 201, job_xp: 201, odin_base: 1206, odin_job: 1206, location: 'Labyrinth Forest', size: 'Large', element: 'Neutral'},
+                {name: 'Golem', level: 47, base_xp: 259, job_xp: 155, odin_base: 1554, odin_job: 930, location: 'Sograt Desert', size: 'Large', element: 'Neutral'},
+                {name: 'Argiope', level: 52, base_xp: 237, job_xp: 237, odin_base: 1422, odin_job: 1422, location: 'Mjolnir Mountains', size: 'Large', element: 'Poison'},
+                {name: 'Marduk', level: 57, base_xp: 200, job_xp: 334, odin_base: 1200, odin_job: 2004, location: 'Sphinx Cavern', size: 'Large', element: 'Fire'},
+                {name: 'Isis', level: 58, base_xp: 341, job_xp: 205, odin_base: 2046, odin_job: 1230, location: 'Pyramid 2F', size: 'Large', element: 'Shadow'},
+                {name: 'Swordfish', level: 59, base_xp: 140, job_xp: 419, odin_base: 840, odin_job: 2514, location: 'Underwater Temple', size: 'Large', element: 'Water'},
+                {name: 'Minorous', level: 59, base_xp: 349, job_xp: 209, odin_base: 2094, odin_job: 1254, location: 'Pyramid 2F', size: 'Large', element: 'Fire'},
+                {name: 'Bigfoot', level: 63, base_xp: 234, job_xp: 390, odin_base: 1404, odin_job: 2340, location: 'Payon West', size: 'Large', element: 'Earth'},
+                {name: 'Pasana', level: 64, base_xp: 321, job_xp: 321, odin_base: 1926, odin_job: 1926, location: 'Sphinx Cavern', size: 'Large', element: 'Fire'},
+                {name: 'Anubis', level: 65, base_xp: 495, job_xp: 165, odin_base: 2970, odin_job: 990, location: 'Sphinx Cavern', size: 'Large', element: 'Undead'},
+                {name: 'Elder Willow', level: 66, base_xp: 339, job_xp: 339, odin_base: 2034, odin_job: 2034, location: 'Payon East Forest', size: 'Large', element: 'Fire'},
+                {name: 'Greatest General', level: 68, base_xp: 446, job_xp: 268, odin_base: 2676, odin_job: 1608, location: 'Payon East Forest', size: 'Large', element: 'Fire'},
+                {name: 'Orc Zombie', level: 72, base_xp: 295, job_xp: 491, odin_base: 1770, odin_job: 2946, location: 'Orc Dungeon', size: 'Large', element: 'Undead'},
+                {name: 'Orc Warrior', level: 75, base_xp: 210, job_xp: 630, odin_base: 1260, odin_job: 3780, location: 'Orc Village', size: 'Large', element: 'Earth'},
+                {name: 'Orc Skeleton', level: 76, base_xp: 429, job_xp: 429, odin_base: 2574, odin_job: 2574, location: 'Orc Dungeon', size: 'Large', element: 'Undead'},
+                {name: 'Giant Whisper', level: 78, base_xp: 335, job_xp: 559, odin_base: 2010, odin_job: 3354, location: 'Munak Cave 2F', size: 'Large', element: 'Ghost'},
+                {name: 'Sky Petite', level: 80, base_xp: 349, job_xp: 581, odin_base: 2094, odin_job: 3486, location: 'Mjolnir Mountains', size: 'Large', element: 'Wind'},
+                {name: 'Bloody Knight', level: 84, base_xp: 376, job_xp: 626, odin_base: 2256, odin_job: 3756, location: 'Glast Heim Chivalry', size: 'Large', element: 'Shadow'},
+                {name: 'High Orc', level: 86, base_xp: 649, job_xp: 389, odin_base: 3894, odin_job: 2334, location: 'Orc Village', size: 'Large', element: 'Fire'},
+                {name: 'Majoruros', level: 86, base_xp: 519, job_xp: 519, odin_base: 3114, odin_job: 3114, location: 'Glast Heim', size: 'Large', element: 'Fire'},
+                {name: 'Nightmare', level: 87, base_xp: 660, job_xp: 396, odin_base: 3960, odin_job: 2376, location: 'Geffen Dungeon 2F', size: 'Large', element: 'Ghost'},
+                {name: 'Rotar Zairo', level: 88, base_xp: 671, job_xp: 403, odin_base: 4026, odin_job: 2418, location: 'Goblin Forest', size: 'Large', element: 'Wind'},
+                {name: 'Wraith', level: 90, base_xp: 833, job_xp: 278, odin_base: 4998, odin_job: 1668, location: 'Geffen Dungeon 2F', size: 'Large', element: 'Undead'},
+                {name: 'Rybio', level: 90, base_xp: 555, job_xp: 555, odin_base: 3330, odin_job: 3330, location: 'Glast Heim Churchyard', size: 'Large', element: 'Neutral'},
+                {name: 'Abysmal Knight', level: 94, base_xp: 739, job_xp: 443, odin_base: 4434, odin_job: 2658, location: 'Glast Heim Chivalry', size: 'Large', element: 'Shadow'},
+                {name: 'Penomena', level: 96, base_xp: 254, job_xp: 152, odin_base: 1524, odin_job: 912, location: 'Clock Tower 1F', size: 'Large', element: 'Poison'},
+                {name: 'Evil Druid', level: 97, base_xp: 927, job_xp: 309, odin_base: 5562, odin_job: 1854, location: 'Clock Tower 1F', size: 'Large', element: 'Undead'},
+                {name: 'Khalitzburg', level: 98, base_xp: 470, job_xp: 784, odin_base: 2820, odin_job: 4704, location: 'Clock Tower 2F', size: 'Large', element: 'Undead'},
+                {name: 'Phendark', level: 100, base_xp: 323, job_xp: 968, odin_base: 1938, odin_job: 5808, location: 'Clock Tower 2F', size: 'Large', element: 'Neutral'},
+                {name: 'Clock Tower Manager', level: 100, base_xp: 645, job_xp: 645, odin_base: 3870, odin_job: 3870, location: 'Clock Tower 2F', size: 'Large', element: 'Neutral'},
+                {name: 'Megalodon', level: 103, base_xp: 504, job_xp: 840, odin_base: 3024, odin_job: 5040, location: 'Comodo Cave', size: 'Large', element: 'Undead'},
+                {name: 'Megalith', level: 105, base_xp: 690, job_xp: 690, odin_base: 4140, odin_job: 4140, location: 'Comodo Cave', size: 'Large', element: 'Neutral'},
+                {name: 'Alligator', level: 106, base_xp: 1049, job_xp: 350, odin_base: 6294, odin_job: 2100, location: 'Zenhai Marsh', size: 'Large', element: 'Water'},
+                {name: 'Stalactic Golem', level: 110, base_xp: 368, job_xp: 1103, odin_base: 2208, odin_job: 6618, location: 'Comodo Cave', size: 'Large', element: 'Neutral'},
+                {name: 'Wooden Golem', level: 112, base_xp: 377, job_xp: 1130, odin_base: 2262, odin_job: 6780, location: 'Hoomga Jungle', size: 'Large', element: 'Earth'},
+                {name: 'Wootan Fighter', level: 114, base_xp: 1157, job_xp: 386, odin_base: 6942, odin_job: 2316, location: 'Kalala Swamp', size: 'Large', element: 'Fire'},
+                {name: 'Gibbet', level: 116, base_xp: 395, job_xp: 1184, odin_base: 2370, odin_job: 7104, location: 'Vally of Gyoll', size: 'Large', element: 'Shadow'},
+                {name: 'Stone Shooter', level: 117, base_xp: 599, job_xp: 998, odin_base: 3594, odin_job: 5988, location: 'Hoomga Jungle', size: 'Large', element: 'Fire'},
+                {name: 'Loli Ruri', level: 119, base_xp: 816, job_xp: 816, odin_base: 4896, odin_job: 4896, location: 'Realm of the Dead', size: 'Large', element: 'Shadow'},
+                {name: 'Zombie Slaughter', level: 120, base_xp: 550, job_xp: 550, odin_base: 3300, odin_job: 3300, location: 'Nameless Island', size: 'Medium', element: 'Undead'},
+                {name: 'Bloody Murderer', level: 120, base_xp: 825, job_xp: 825, odin_base: 4950, odin_job: 4950, location: 'Vally of Gyoll', size: 'Large', element: 'Shadow'},
+                {name: 'Grand Peco', level: 125, base_xp: 885, job_xp: 885, odin_base: 5310, odin_job: 5310, location: 'Border Inspection Station', size: 'Large', element: 'Fire'},
+                {name: 'Cursed Grave Keeper', level: 126, base_xp: 449, job_xp: 1346, odin_base: 2694, odin_job: 8076, location: 'El Mes Gorge', size: 'Large', element: 'Undead'},
+                {name: 'Apocalypse', level: 130, base_xp: 945, job_xp: 945, odin_base: 5670, odin_job: 5670, location: 'Juperos Ruins F1', size: 'Large', element: 'Neutral'},
+                {name: 'Nightmare Evil Druid', level: 130, base_xp: 473, job_xp: 1418, odin_base: 2838, odin_job: 8508, location: 'Border Inspection Station', size: 'Large', element: 'Undead'},
+                {name: 'Archdam', level: 130, base_xp: 1418, job_xp: 473, odin_base: 8508, odin_job: 2838, location: 'Juperos Ruins F1', size: 'Large', element: 'Neutral'},
+                {name: 'Water Spirit', level: 141, base_xp: 1346, job_xp: 808, odin_base: 8076, odin_job: 4848, location: 'Ice Cave 1F', size: 'Large', element: 'Water'},
+                {name: 'Snowier', level: 148, base_xp: 1742, job_xp: 581, odin_base: 10452, odin_job: 3486, location: 'Ice Cave 2F', size: 'Large', element: 'Water'},
+                {name: 'Ice Titan', level: 150, base_xp: 1185, job_xp: 1185, odin_base: 7110, odin_job: 7110, location: 'Ice Cave 2F', size: 'Large', element: 'Water'},
+            ],
+        };
+
+        function updateMonsterList() {
+            const category = document.getElementById('category').value;
+            const monsterSelect = document.getElementById('monster');
+            
+            monsterSelect.innerHTML = '<option value="">Selecione um monstro</option>';
+            
+            monsters[category].forEach((monster, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                const translatedName = monsterNamesPT[monster.name] || monster.name;
+                option.textContent = `${translatedName} (Lv.${monster.level})`;
+                monsterSelect.appendChild(option);
+            });
+            
+            updateMonsterInfo();
+        }
+
+        function updateMonsterInfo() {
+            const category = document.getElementById('category').value;
+            const monsterIndex = document.getElementById('monster').value;
+            const detailsDiv = document.getElementById('monsterDetails');
+            
+            if (monsterIndex === '') {
+                detailsDiv.textContent = 'Selecione um monstro para ver as informações...';
+                return;
+            }
+            
+            const monster = monsters[category][monsterIndex];
+            
+            const translatedName = monsterNamesPT[monster.name] || monster.name;
+            const info = `Monstro: ${translatedName}
+Level: ${monster.level}
+Localização: ${monster.location}
+Elemento: ${monster.element}
+Tamanho: ${monster.size}
+
+XP SEM BÊNÇÃO:
+Base: ${monster.base_xp.toLocaleString()}
+Job: ${monster.job_xp.toLocaleString()}
+
+XP COM BÊNÇÃO ODIM:
+Base: ${monster.odin_base.toLocaleString()}
+Job: ${monster.odin_job.toLocaleString()}`;
+            
+            detailsDiv.textContent = info;
+        }
+
+        function calculateXP() {
+            const category = document.getElementById('category').value;
+            const monsterIndex = document.getElementById('monster').value;
+            const killTime = parseFloat(document.getElementById('killTime').value);
+            const farmType = document.getElementById('farmType').value;
+            
+            if (monsterIndex === '') {
+                alert('Selecione um monstro!');
+                return;
+            }
+            
+            if (killTime <= 0) {
+                alert('Tempo deve ser maior que 0!');
+                return;
+            }
+            
+            const monster = monsters[category][monsterIndex];
+            
+            // Calcular XP baseado no tipo de farm
+            let baseXP, jobXP;
+            if (farmType === 'afk') {
+                baseXP = monster.base_xp;
+                jobXP = monster.job_xp;
+            } else {
+                baseXP = monster.odin_base;
+                jobXP = monster.odin_job;
+            }
+            
+            // Calcular rates
+            const killsPerMinute = 60 / killTime;
+            const killsPerHour = 3600 / killTime;
+            
+            const xpBasePerMin = baseXP * killsPerMinute;
+            const xpJobPerMin = jobXP * killsPerMinute;
+            
+            const xpBasePerHour = baseXP * killsPerHour;
+            const xpJobPerHour = jobXP * killsPerHour;
+            
+            // Atualizar interface
+            document.getElementById('xpPerKill').innerHTML = `Base: ${baseXP.toLocaleString()}<br>Job: ${jobXP.toLocaleString()}`;
+            document.getElementById('xpPerMinute').innerHTML = `Base: ${Math.round(xpBasePerMin).toLocaleString()}<br>Job: ${Math.round(xpJobPerMin).toLocaleString()}`;
+            document.getElementById('xpPerHour').innerHTML = `Base: ${Math.round(xpBasePerHour).toLocaleString()}<br>Job: ${Math.round(xpJobPerHour).toLocaleString()}`;
+            
+            // Calcular bênçãos necessárias
+            const blessingResult = document.getElementById('blessingResult');
+            
+            if (farmType === 'odin') {
+                const blessingPerKill = {'pequenos': 1, 'medios': 2, 'grandes': 3}[category];
+                const blessingsPerHour = blessingPerKill * killsPerHour;
+                
+                let blessingText = `⚡ Bênçãos necessárias: ${blessingPerKill} por morte | ${Math.round(blessingsPerHour).toLocaleString()} por hora`;
+                
+                if (blessingsPerHour > 2000) {
+                    blessingText += `<br><span class="warning">⚠️ ATENÇÃO: Excede o limite diário de 2000 bênçãos!</span>`;
+                }
+                
+                blessingResult.innerHTML = blessingText;
+                blessingResult.style.display = 'block';
+            } else {
+                blessingResult.innerHTML = '💡 Farm AFK - Sem uso de bênçãos';
+                blessingResult.style.display = 'block';
+            }
+            
+            // Atualizar gráfico com o monstro selecionado
+            updateChartForSelectedMonster(monster, farmType, Math.round(xpBasePerHour), Math.round(xpJobPerHour));
+        }
+
+        // Variáveis globais
+        let currentChart = null;
+        let editingMonster = null;
+
+        // Função para mostrar recomendações baseadas no nível
+        function showRecommendations() {
+            const playerLevel = parseInt(document.getElementById('playerLevel').value);
+            const xpType = document.getElementById('xpType').value;
+            
+            if (!playerLevel || playerLevel < 1 || playerLevel > 150) {
+                alert('Por favor, insira um nível válido entre 1 e 150!');
+                return;
+            }
+
+            const recommendations = getRecommendations(playerLevel, xpType);
+            displayRecommendations(recommendations, xpType);
+        }
+
+        function getRecommendations(playerLevel, xpType) {
+            const recommendations = { afk: [], odin: [] };
+
+            for (const category in monsters) {
+                for (const monster of monsters[category]) {
+                    // Considerar monstros até 20 níveis acima do player e 10 abaixo
+                    if (monster.level <= playerLevel + 20 && monster.level >= playerLevel - 10) {
+                        const efficiency = calculateEfficiency(monster, playerLevel, xpType);
+                        
+                        recommendations.afk.push({
+                            ...monster,
+                            category,
+                            efficiency: efficiency.afk,
+                            xpPerHour: efficiency.afkXpPerHour,
+                            baseXpPerHour: efficiency.afkBaseXpPerHour,
+                            jobXpPerHour: efficiency.afkJobXpPerHour,
+                            penalty: efficiency.penalty
+                        });
+                        
+                        // Calcular eficiência por bênção de Odim
+                        const blessingCost = {'pequenos': 1, 'medios': 2, 'grandes': 3}[category];
+                        const baseXpPerBlessing = (monster.base_xp * efficiency.penalty) / blessingCost;
+                        const jobXpPerBlessing = (monster.job_xp * efficiency.penalty) / blessingCost;
+                        const totalXpPerBlessing = baseXpPerBlessing + jobXpPerBlessing;
+                        
+                        recommendations.odin.push({
+                            ...monster,
+                            category,
+                            efficiency: efficiency.odin,
+                            xpPerHour: efficiency.odinXpPerHour,
+                            baseXpPerHour: efficiency.odinBaseXpPerHour,
+                            jobXpPerHour: efficiency.odinJobXpPerHour,
+                            penalty: efficiency.penalty,
+                            baseXpPerBlessing: baseXpPerBlessing,
+                            jobXpPerBlessing: jobXpPerBlessing,
+                            totalXpPerBlessing: totalXpPerBlessing,
+                            blessingCost: blessingCost
+                        });
+                    }
+                }
+            }
+
+            // Ordenar farm AFK baseado no XP por hora normal
+            const afkSortKey = xpType === 'base' ? 'baseXpPerHour' : 
+                              xpType === 'job' ? 'jobXpPerHour' : 'xpPerHour';
+            
+            // Ordenar farm com bênção baseado na eficiência por bênção
+            const odinSortKey = xpType === 'base' ? 'baseXpPerBlessing' : 
+                               xpType === 'job' ? 'jobXpPerBlessing' : 'totalXpPerBlessing';
+            
+            recommendations.afk.sort((a, b) => b[afkSortKey] - a[afkSortKey]);
+            recommendations.odin.sort((a, b) => b[odinSortKey] - a[odinSortKey]);
+            
+            recommendations.afk = recommendations.afk.slice(0, 5);
+            recommendations.odin = recommendations.odin.slice(0, 5);
+
+            return recommendations;
+        }
+
+        function calculateLevelPenalty(playerLevel, monsterLevel) {
+            const levelDiff = Math.abs(monsterLevel - playerLevel);
+            
+            if (levelDiff <= 3) {
+                return 1.0; // 100% XP
+            } else if (levelDiff === 4) {
+                return 0.8; // 80% XP
+            } else if (levelDiff === 5) {
+                return 0.6; // 60% XP
+            } else if (levelDiff === 6) {
+                return 0.4; // 40% XP
+            } else if (levelDiff === 7) {
+                return 0.2; // 20% XP
+            } else {
+                return 0.1; // 10% XP (mínimo)
+            }
+        }
+
+        function calculateEfficiency(monster, playerLevel, xpType) {
+            // Sistema de penalização oficial do Ragnarok X
+            const penalty = calculateLevelPenalty(playerLevel, monster.level);
+            
+            // Assumir 6 segundos por kill para cálculo base
+            const killTime = 6;
+            const killsPerHour = 3600 / killTime;
+            
+            // Calcular XP por hora separadamente para base e job COM penalização
+            const afkBaseXpPerHour = monster.base_xp * killsPerHour * penalty;
+            const afkJobXpPerHour = monster.job_xp * killsPerHour * penalty;
+            const afkTotalXpPerHour = afkBaseXpPerHour + afkJobXpPerHour;
+            
+            const odinBaseXpPerHour = monster.odin_base * killsPerHour * penalty;
+            const odinJobXpPerHour = monster.odin_job * killsPerHour * penalty;
+            const odinTotalXpPerHour = odinBaseXpPerHour + odinJobXpPerHour;
+
+            return {
+                afk: penalty,
+                odin: penalty,
+                afkXpPerHour: Math.round(afkTotalXpPerHour),
+                odinXpPerHour: Math.round(odinTotalXpPerHour),
+                afkBaseXpPerHour: Math.round(afkBaseXpPerHour),
+                afkJobXpPerHour: Math.round(afkJobXpPerHour),
+                odinBaseXpPerHour: Math.round(odinBaseXpPerHour),
+                odinJobXpPerHour: Math.round(odinJobXpPerHour),
+                penalty: penalty
+            };
+        }
+
+        function displayRecommendations(recommendations, xpType) {
+            const resultDiv = document.getElementById('recommendationsResult');
+            
+            const getXpDisplay = (monster, farmType, xpType) => {
+                if (xpType === 'base') {
+                    return farmType === 'afk' ? monster.baseXpPerHour : monster.baseXpPerHour;
+                } else if (xpType === 'job') {
+                    return farmType === 'afk' ? monster.jobXpPerHour : monster.jobXpPerHour;
+                } else {
+                    return monster.xpPerHour;
+                }
+            };
+            
+            const xpTypeLabel = xpType === 'base' ? 'Base XP' : 
+                              xpType === 'job' ? 'Job XP' : 'XP Total';
+            
+            // Encontrar a melhor opção para farm AFK
+            const bestAfk = recommendations.afk[0];
+            
+            // Encontrar a melhor opção para farm com bênção (baseado na eficiência por bênção)
+            const bestOdin = recommendations.odin[0];
+            
+            // Comparar qual é melhor considerando diferentes critérios
+            const afkXpValue = getXpDisplay(bestAfk, 'afk', xpType);
+            const odinXpValue = getXpDisplay(bestOdin, 'odin', xpType);
+            
+            const bestOption = afkXpValue > odinXpValue ? 
+                {...bestAfk, farmType: 'afk', displayValue: afkXpValue} : 
+                {...bestOdin, farmType: 'odin', displayValue: odinXpValue};
+            
+            let html = `
+                <div class="recommendation-card" style="background: linear-gradient(135deg, #4CAF50, #45a049); border: 2px solid #4CAF50; margin-bottom: 20px;">
+                    <h4>🏆 MELHOR OPÇÃO PARA ${xpTypeLabel.toUpperCase()}</h4>
+                    <div style="font-size: 1.2em; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                        <strong>🥇 ${monsterNamesPT[bestOption.name] || bestOption.name}</strong> (Lv.${bestOption.level})<br>
+                        📍 ${bestOption.location}<br>
+                        ⚡ <span style="color: #ffeb3b; font-weight: bold;">${bestOption.displayValue.toLocaleString()} ${xpTypeLabel}/h</span><br>
+                        ${bestOption.farmType === 'odin' ? 
+                            `💰 ${bestOption.blessingCost || {'pequenos': 1, 'medios': 2, 'grandes': 3}[bestOption.category]} bênção(ões) por morte<br>
+                             🔥 <strong>Farm com Bênção de Odim</strong><br>
+                             ${(() => {
+                                 let xpPerBlessing, efficiencyLabel;
+                                 if (xpType === 'base') {
+                                     xpPerBlessing = bestOption.baseXpPerBlessing;
+                                     efficiencyLabel = 'Base XP/Bênção';
+                                 } else if (xpType === 'job') {
+                                     xpPerBlessing = bestOption.jobXpPerBlessing;
+                                     efficiencyLabel = 'Job XP/Bênção';
+                                 } else {
+                                     xpPerBlessing = bestOption.totalXpPerBlessing;
+                                     efficiencyLabel = 'XP Total/Bênção';
+                                 }
+                                 return xpPerBlessing ? `💎 <span style="color: #00ff88;">${Math.round(xpPerBlessing).toLocaleString()} ${efficiencyLabel}</span>` : '';
+                             })()}` : 
+                            '😴 <strong>Farm AFK (sem bênção)</strong>'
+                        }
+                    </div>
+                </div>
+                
+                <div class="recommendation-card">
+                    <h4>🎯 TOP 5 - FARM AFK (${xpTypeLabel})</h4>
+                    <ul>
+                        ${recommendations.afk.map((monster, index) => {
+                            const xpValue = getXpDisplay(monster, 'afk', xpType);
+                            const isBest = monster.name === bestOption.name && bestOption.farmType === 'afk';
+                            const penaltyText = monster.penalty < 1 ? ` (${Math.round(monster.penalty * 100)}% XP)` : '';
+                            const penaltyColor = monster.penalty < 1 ? 'color: #ffab00;' : '';
+                            return `<li style="${isBest ? 'background: rgba(76, 175, 80, 0.3); padding: 8px; border-radius: 5px;' : ''}">
+                                   ${isBest ? '🏆 ' : `${index + 1}. `}<strong>${monsterNamesPT[monster.name] || monster.name}</strong> (Lv.${monster.level})<br>
+                                   📍 ${monster.location}<br>
+                                   ⚡ ${xpValue.toLocaleString()} ${xpTypeLabel}/h<br>
+                                   <span style="${penaltyColor}">🎯 Eficiência: ${Math.round(monster.penalty * 100)}%${penaltyText}</span></li>`;
+                        }).join('')}
+                    </ul>
+                </div>
+                <div class="recommendation-card">
+                    <h4>⚡ TOP 5 - FARM COM BÊNÇÃO (Eficiência por Bênção de Odim)</h4>
+                    <ul>
+                        ${recommendations.odin.map((monster, index) => {
+                            const xpValue = getXpDisplay(monster, 'odin', xpType);
+                            const isBest = monster.name === bestOption.name && bestOption.farmType === 'odin';
+                            const penaltyText = monster.penalty < 1 ? ` (${Math.round(monster.penalty * 100)}% XP)` : '';
+                            const penaltyColor = monster.penalty < 1 ? 'color: #ffab00;' : '';
+                            
+                            // Calcular eficiência por bênção
+                            let xpPerBlessing, efficiencyLabel;
+                            if (xpType === 'base') {
+                                xpPerBlessing = monster.baseXpPerBlessing;
+                                efficiencyLabel = 'Base XP/Bênção';
+                            } else if (xpType === 'job') {
+                                xpPerBlessing = monster.jobXpPerBlessing;
+                                efficiencyLabel = 'Job XP/Bênção';
+                            } else {
+                                xpPerBlessing = monster.totalXpPerBlessing;
+                                efficiencyLabel = 'XP Total/Bênção';
+                            }
+                            
+                            return `<li style="${isBest ? 'background: rgba(76, 175, 80, 0.3); padding: 8px; border-radius: 5px;' : ''}">
+                                   ${isBest ? '🏆 ' : `${index + 1}. `}<strong>${monsterNamesPT[monster.name] || monster.name}</strong> (Lv.${monster.level})<br>
+                                   📍 ${monster.location}<br>
+                                   ⚡ ${xpValue.toLocaleString()} ${xpTypeLabel}/h<br>
+                                   💰 ${monster.blessingCost} bênção(ões) por morte<br>
+                                   🔥 <strong>${Math.round(xpPerBlessing).toLocaleString()} ${efficiencyLabel}</strong><br>
+                                   <span style="${penaltyColor}">🎯 Eficiência: ${Math.round(monster.penalty * 100)}%${penaltyText}</span></li>`;
+                        }).join('')}
+                    </ul>
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(255, 193, 7, 0.2); border-radius: 5px; border-left: 4px solid #ffc107;">
+                        <strong>💡 Dica:</strong> Esta lista está ordenada pela eficiência de XP por bênção de Odim consumida.<br>
+                        <small>• Pequenos: 1 bênção | Médios: 2 bênçãos | Grandes: 3 bênçãos por morte</small>
+                    </div>
+                </div>
+            `;
+            
+            resultDiv.innerHTML = html;
+            
+            // Atualizar gráfico com destaque para a melhor opção
+            updateChart(recommendations, xpType, bestOption);
+        }
+
+        // Funções do modal de edição
+        function openEditModal() {
+            const category = document.getElementById('category').value;
+            const monsterIndex = document.getElementById('monster').value;
+            
+            if (monsterIndex === '') {
+                alert('Selecione um monstro primeiro!');
+                return;
+            }
+            
+            editingMonster = { category, index: monsterIndex };
+            const monster = monsters[category][monsterIndex];
+            
+            const translatedName = monsterNamesPT[monster.name] || monster.name;
+            document.getElementById('editMonsterInfo').innerHTML = 
+                `<strong>Editando:</strong> ${translatedName} (Lv.${monster.level})`;
+            document.getElementById('editBaseXP').value = monster.base_xp;
+            document.getElementById('editJobXP').value = monster.job_xp;
+            
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+            editingMonster = null;
+        }
+
+        function saveMonsterXP() {
+            if (!editingMonster) return;
+            
+            const newBaseXP = parseInt(document.getElementById('editBaseXP').value);
+            const newJobXP = parseInt(document.getElementById('editJobXP').value);
+            
+            if (!newBaseXP || !newJobXP || newBaseXP < 1 || newJobXP < 1) {
+                alert('Por favor, insira valores válidos!');
+                return;
+            }
+            
+            const monster = monsters[editingMonster.category][editingMonster.index];
+            monster.base_xp = newBaseXP;
+            monster.job_xp = newJobXP;
+            monster.odin_base = newBaseXP * 6;
+            monster.odin_job = newJobXP * 6;
+            
+            // Atualizar informações do monstro na tela
+            updateMonsterDetails();
+            
+            alert('XP atualizado com sucesso!');
+            closeEditModal();
+        }
+
+        // Função para atualizar gráfico com monstro selecionado
+        function updateChartForSelectedMonster(monster, farmType, baseXpPerHour, jobXpPerHour) {
+            const ctx = document.getElementById('xpChart').getContext('2d');
+            
+            if (currentChart) {
+                currentChart.destroy();
+            }
+            
+            // Criar dados para 24 horas (0h até 24h)
+            const hours = Array.from({length: 25}, (_, i) => `${i}h`);
+            const baseXpData = [];
+            const jobXpData = [];
+            
+            // Calcular XP acumulado a cada hora
+            for (let hour = 0; hour <= 24; hour++) {
+                baseXpData.push(baseXpPerHour * hour);
+                jobXpData.push(jobXpPerHour * hour);
+            }
+            
+            const farmTypeLabel = farmType === 'afk' ? 'Farm AFK' : 'Farm com Bênção';
+            
+            currentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: hours,
+                    datasets: [{
+                        label: '🔥 Base XP Acumulado',
+                        data: baseXpData,
+                        borderColor: '#ff8c00',
+                        backgroundColor: 'rgba(255, 140, 0, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#ff8c00',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }, {
+                        label: '💼 Job XP Acumulado',
+                        data: jobXpData,
+                        borderColor: '#00bfff',
+                        backgroundColor: 'rgba(0, 191, 255, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#00bfff',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeInOutQuart',
+                        onProgress: function(animation) {
+                            const progress = animation.currentStep / animation.numSteps;
+                            ctx.shadowColor = `rgba(0, 212, 255, ${0.5 * progress})`;
+                            ctx.shadowBlur = 20 * progress;
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `⚡ ${monsterNamesPT[monster.name] || monster.name} - XP Acumulado em 24h (${farmTypeLabel})`,
+                            color: '#00d4ff',
+                            font: {
+                                size: 18,
+                                weight: 'bold',
+                                family: 'Silkscreen, monospace'
+                            },
+                            padding: 20
+                        },
+                        legend: {
+                            labels: {
+                                color: 'white',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                            titleColor: '#00d4ff',
+                            bodyColor: 'white',
+                            borderColor: '#00d4ff',
+                            borderWidth: 2,
+                            cornerRadius: 10,
+                            displayColors: true,
+                            callbacks: {
+                                title: function(context) {
+                                    return `⏰ Após ${context[0].label} de farm`;
+                                },
+                                label: function(context) {
+                                    const value = context.parsed.y.toLocaleString();
+                                    const emoji = context.datasetIndex === 0 ? '🔥' : '💼';
+                                    return `${emoji} ${context.dataset.label}: ${value} XP`;
+                                },
+                                afterBody: function(context) {
+                                    const hour = parseInt(context[0].label);
+                                    if (hour > 0) {
+                                        return [``, `📊 Taxa por hora:`, `🔥 Base: ${baseXpPerHour.toLocaleString()} XP/h`, `💼 Job: ${jobXpPerHour.toLocaleString()} XP/h`];
+                                    }
+                                    return null;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '💎 XP Acumulado',
+                                color: '#00d4ff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: {
+                                color: 'white',
+                                font: {
+                                    size: 12
+                                },
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 212, 255, 0.2)',
+                                lineWidth: 1
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '⏰ Tempo de Farm',
+                                color: '#00d4ff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: {
+                                color: 'white',
+                                font: {
+                                    size: 12
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 212, 255, 0.2)',
+                                lineWidth: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Função para atualizar gráfico - Mostra XP acumulado em 24h para o monstro calculado
+        function updateChart(recommendations, xpType, bestOption) {
+            const ctx = document.getElementById('xpChart').getContext('2d');
+            
+            if (currentChart) {
+                currentChart.destroy();
+            }
+            
+            // Encontrar o monstro calculado (melhor opção AFK)
+            const calculatedMonster = bestOption && bestOption.farmType === 'afk' ? bestOption : 
+                                    (recommendations.afk && recommendations.afk.length > 0 ? recommendations.afk[0] : null);
+            
+            if (!calculatedMonster) {
+                return;
+            }
+            
+            // Criar dados para 24 horas (0h até 24h)
+            const hours = Array.from({length: 25}, (_, i) => `${i}h`);
+            const baseXpData = [];
+            const jobXpData = [];
+            
+            // Calcular XP acumulado a cada hora
+            for (let hour = 0; hour <= 24; hour++) {
+                baseXpData.push(calculatedMonster.baseXpPerHour * hour);
+                jobXpData.push(calculatedMonster.jobXpPerHour * hour);
+            }
+            
+            currentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: hours,
+                    datasets: [{
+                        label: '🔥 Base XP Acumulado',
+                        data: baseXpData,
+                        borderColor: '#ff8c00',
+                        backgroundColor: 'rgba(255, 140, 0, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#ff8c00',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }, {
+                        label: '💼 Job XP Acumulado',
+                        data: jobXpData,
+                        borderColor: '#00bfff',
+                        backgroundColor: 'rgba(0, 191, 255, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#00bfff',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeInOutQuart',
+                        onProgress: function(animation) {
+                            // Efeito de brilho durante a animação
+                            const progress = animation.currentStep / animation.numSteps;
+                            ctx.shadowColor = `rgba(0, 212, 255, ${0.5 * progress})`;
+                            ctx.shadowBlur = 20 * progress;
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `⚡ ${calculatedMonster.name_pt || calculatedMonster.name} - XP Acumulado em 24h (Farm AFK)`,
+                            color: '#00d4ff',
+                            font: {
+                                size: 18,
+                                weight: 'bold',
+                                family: 'Silkscreen, monospace'
+                            },
+                            padding: 20
+                        },
+                        legend: {
+                            labels: {
+                                color: 'white',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                            titleColor: '#00d4ff',
+                            bodyColor: 'white',
+                            borderColor: '#00d4ff',
+                            borderWidth: 2,
+                            cornerRadius: 10,
+                            displayColors: true,
+                            callbacks: {
+                                title: function(context) {
+                                    return `⏰ Após ${context[0].label} de farm`;
+                                },
+                                label: function(context) {
+                                    const value = context.parsed.y.toLocaleString();
+                                    const emoji = context.datasetIndex === 0 ? '🔥' : '💼';
+                                    return `${emoji} ${context.dataset.label}: ${value} XP`;
+                                },
+                                afterBody: function(context) {
+                                    const hour = parseInt(context[0].label);
+                                    if (hour > 0) {
+                                        const baseXpPerHour = calculatedMonster.baseXpPerHour;
+                                        const jobXpPerHour = calculatedMonster.jobXpPerHour;
+                                        return [``, `📊 Taxa por hora:`, `🔥 Base: ${baseXpPerHour.toLocaleString()} XP/h`, `💼 Job: ${jobXpPerHour.toLocaleString()} XP/h`];
+                                    }
+                                    return null;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '💎 XP Acumulado',
+                                color: '#00d4ff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: {
+                                color: 'white',
+                                font: {
+                                    size: 12
+                                },
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 212, 255, 0.2)',
+                                lineWidth: 1
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '⏰ Tempo de Farm',
+                                color: '#00d4ff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: {
+                                color: 'white',
+                                font: {
+                                    size: 12
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 212, 255, 0.2)',
+                                lineWidth: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Atualizar função updateMonsterList para usar nomes em português
+        function updateMonsterList() {
+            const category = document.getElementById('category').value;
+            const monsterSelect = document.getElementById('monster');
+            
+            monsterSelect.innerHTML = '<option value="">Selecione um monstro</option>';
+            
+            monsters[category].forEach((monster, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                const translatedName = monsterNamesPT[monster.name] || monster.name;
+                option.textContent = `${translatedName} (Lv.${monster.level})`;
+                monsterSelect.appendChild(option);
+            });
+            
+            updateMonsterDetails();
+        }
+
+        // Atualizar função updateMonsterDetails para usar nomes em português
+        function updateMonsterDetails() {
+            const category = document.getElementById('category').value;
+            const monsterIndex = document.getElementById('monster').value;
+            
+            const detailsDiv = document.getElementById('monsterDetails');
+            
+            if (monsterIndex === '') {
+                detailsDiv.textContent = 'Selecione um monstro para ver os detalhes';
+                return;
+            }
+            
+            const monster = monsters[category][monsterIndex];
+            
+            const translatedName = monsterNamesPT[monster.name] || monster.name;
+            const info = `Monstro: ${translatedName}
+Level: ${monster.level}
+Localização: ${monster.location}
+Elemento: ${monster.element}
+Tamanho: ${monster.size}
+
+XP SEM BÊNÇÃO:
+Base: ${monster.base_xp.toLocaleString()}
+Job: ${monster.job_xp.toLocaleString()}
+
+XP COM BÊNÇÃO ODIM:
+Base: ${monster.odin_base.toLocaleString()}
+Job: ${monster.odin_job.toLocaleString()}`;
+            
+            detailsDiv.textContent = info;
+        }
+
+        // Função para inserir a logo oficial
+        function setOfficialLogo(logoSrc) {
+            const logoContainer = document.getElementById('officialLogo');
+            logoContainer.innerHTML = `
+                <div class="animated-border">
+                    <img src="${logoSrc}" alt="Ragnarok X Next Generation Official Logo" 
+                         style="max-width: 400px; max-height: 150px; border-radius: 10px; 
+                                box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+                                object-fit: contain; display: block; position: relative; z-index: 1;">
+                </div>
+            `;
+        }
+
+        // Inicializar a página
+        updateMonsterList();
+        
+        // Aplicar borda animada na logo oficial
+        setOfficialLogo('https://www.ragnarokx.net/_nuxt/img_0.CYe3hNEG.png');
+        
+        // Proteções contra inspeção e clique direito
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            // Bloquear F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+Shift+C
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+                (e.ctrlKey && e.key === 'u')) {
+                e.preventDefault();
+            }
+        });
+        
+        // Detectar se DevTools está aberto
+        setInterval(function() {
+            if (window.outerHeight - window.innerHeight > 200 || window.outerWidth - window.innerWidth > 200) {
+                document.body.innerHTML = '';
+            }
+        }, 500);
+    </script>
+</body>
+</html>
