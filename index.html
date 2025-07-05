@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚔️ ROX XP Calculator - Next Generation</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="visit_counter.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -856,51 +857,7 @@
     </div>
 
     <script>
-        // Contador de visitas externo personalizado
-        function initExternalVisitCounter() {
-            // Criar container para o contador externo
-            const counterContainer = document.getElementById('visitCounter');
-            if (counterContainer) {
-                // Limpar conteúdo atual
-                counterContainer.innerHTML = '';
-                
-                // Criar script do contador externo
-                const script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.src = 'https://www.freevisitorcounters.com/en/home/counter/1360601/t/9';
-                
-                // Adicionar o script ao container
-                counterContainer.appendChild(script);
-                
-                // Estilizar o contador para combinar com o design
-                setTimeout(() => {
-                    const counterImg = counterContainer.querySelector('.counterimg');
-                    if (counterImg) {
-                        counterImg.style.cssText = `
-                            border-radius: 8px;
-                            box-shadow: 0 2px 10px rgba(0, 212, 255, 0.3);
-                            transition: all 0.3s ease;
-                            max-height: 30px;
-                            vertical-align: middle;
-                        `;
-                        
-                        // Adicionar efeito hover
-                        counterImg.addEventListener('mouseenter', () => {
-                            counterImg.style.transform = 'scale(1.05)';
-                            counterImg.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.5)';
-                        });
-                        
-                        counterImg.addEventListener('mouseleave', () => {
-                            counterImg.style.transform = 'scale(1)';
-                            counterImg.style.boxShadow = '0 2px 10px rgba(0, 212, 255, 0.3)';
-                        });
-                    }
-                }, 1000);
-            }
-        }
-        
-        // Inicializar contador externo quando a página carregar
-        window.addEventListener('load', initExternalVisitCounter);
+        // O contador de visitas agora é gerenciado pelo visit_counter.js
         
         // Mapeamento de nomes dos monstros para português brasileiro
         const monsterNamesPT = {
