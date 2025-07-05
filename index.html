@@ -778,7 +778,7 @@
                         <div class="stat-label">Monstros</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" id="visitCounter">0</div>
+                        <div class="stat-number" id="visitCounter">Carregando...</div>
                         <div class="stat-label">Visitas Únicas</div>
                     </div>
                     <div class="stat-item">
@@ -856,38 +856,51 @@
     </div>
 
     <script>
-        // Sistema de contador de visitas por IP (24h)
-        function initVisitCounter() {
-            const now = new Date().getTime();
-            const oneDay = 24 * 60 * 60 * 1000; // 24 horas em milissegundos
-            
-            // Simular IP único baseado em fingerprint do navegador
-            const userFingerprint = navigator.userAgent + navigator.language + screen.width + screen.height;
-            const userHash = btoa(userFingerprint).slice(0, 16);
-            
-            // Recuperar dados de visitas do localStorage
-            let visitData = JSON.parse(localStorage.getItem('visitCounter') || '{}');
-            
-            // Limpar visitas antigas (mais de 24h)
-            Object.keys(visitData).forEach(ip => {
-                if (now - visitData[ip] > oneDay) {
-                    delete visitData[ip];
-                }
-            });
-            
-            // Verificar se este IP já visitou nas últimas 24h
-            if (!visitData[userHash] || (now - visitData[userHash]) > oneDay) {
-                visitData[userHash] = now;
-                localStorage.setItem('visitCounter', JSON.stringify(visitData));
+        // Contador de visitas externo personalizado
+        function initExternalVisitCounter() {
+            // Criar container para o contador externo
+            const counterContainer = document.getElementById('visitCounter');
+            if (counterContainer) {
+                // Limpar conteúdo atual
+                counterContainer.innerHTML = '';
+                
+                // Criar script do contador externo
+                const script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = 'https://www.freevisitorcounters.com/en/home/counter/1360601/t/9';
+                
+                // Adicionar o script ao container
+                counterContainer.appendChild(script);
+                
+                // Estilizar o contador para combinar com o design
+                setTimeout(() => {
+                    const counterImg = counterContainer.querySelector('.counterimg');
+                    if (counterImg) {
+                        counterImg.style.cssText = `
+                            border-radius: 8px;
+                            box-shadow: 0 2px 10px rgba(0, 212, 255, 0.3);
+                            transition: all 0.3s ease;
+                            max-height: 30px;
+                            vertical-align: middle;
+                        `;
+                        
+                        // Adicionar efeito hover
+                        counterImg.addEventListener('mouseenter', () => {
+                            counterImg.style.transform = 'scale(1.05)';
+                            counterImg.style.boxShadow = '0 4px 15px rgba(0, 212, 255, 0.5)';
+                        });
+                        
+                        counterImg.addEventListener('mouseleave', () => {
+                            counterImg.style.transform = 'scale(1)';
+                            counterImg.style.boxShadow = '0 2px 10px rgba(0, 212, 255, 0.3)';
+                        });
+                    }
+                }, 1000);
             }
-            
-            // Atualizar contador na tela
-            const uniqueVisits = Object.keys(visitData).length;
-            document.getElementById('visitCounter').textContent = uniqueVisits;
         }
         
-        // Inicializar contador quando a página carregar
-        window.addEventListener('load', initVisitCounter);
+        // Inicializar contador externo quando a página carregar
+        window.addEventListener('load', initExternalVisitCounter);
         
         // Mapeamento de nomes dos monstros para português brasileiro
         const monsterNamesPT = {
