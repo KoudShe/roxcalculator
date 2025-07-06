@@ -45,7 +45,8 @@ class VisitCounter {
             }
         } catch (error) {
             console.error('Erro ao buscar dados do contador:', error);
-            this.showError();
+            console.log('PHP não disponível, usando contador local');
+            this.initLocalFallback();
         }
     }
 
@@ -68,20 +69,37 @@ class VisitCounter {
 
     // Fallback para contador local (caso o PHP não funcione)
     initLocalFallback() {
-        const localCount = localStorage.getItem('localVisitCount') || '1';
-        this.displayCount(parseInt(localCount));
+        const STORAGE_KEY = 'roxcalculator_visits';
+        const VISITOR_KEY = 'roxcalculator_visitor_id';
+        const LAST_VISIT_KEY = 'roxcalculator_last_visit';
         
-        // Incrementar contador local ocasionalmente
-        const lastIncrement = localStorage.getItem('lastLocalIncrement');
-        const now = Date.now();
-        const oneHour = 60 * 60 * 1000;
-        
-        if (!lastIncrement || (now - parseInt(lastIncrement)) > oneHour) {
-            const newCount = parseInt(localCount) + Math.floor(Math.random() * 3) + 1;
-            localStorage.setItem('localVisitCount', newCount.toString());
-            localStorage.setItem('lastLocalIncrement', now.toString());
-            this.displayCount(newCount);
+        // Gerar ID único para o visitante se não existir
+        let visitorId = localStorage.getItem(VISITOR_KEY);
+        if (!visitorId) {
+            visitorId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem(VISITOR_KEY, visitorId);
         }
+        
+        // Verificar última visita
+        const lastVisit = localStorage.getItem(LAST_VISIT_KEY);
+        const now = Date.now();
+        const twentyFourHours = 24 * 60 * 60 * 1000; // 24 horas em milissegundos
+        
+        // Carregar contador atual (começar com 150+ como mostrado no site)
+        let currentCount = parseInt(localStorage.getItem(STORAGE_KEY)) || 150;
+        
+        // Se é uma nova visita (primeira vez ou após 24h)
+        if (!lastVisit || (now - parseInt(lastVisit)) > twentyFourHours) {
+            currentCount++;
+            localStorage.setItem(STORAGE_KEY, currentCount.toString());
+            localStorage.setItem(LAST_VISIT_KEY, now.toString());
+            console.log('Nova visita registrada. Total:', currentCount);
+        } else {
+            console.log('Visitante já contabilizado nas últimas 24h. Total:', currentCount);
+        }
+        
+        // Mostrar o contador
+        this.displayCount(currentCount);
     }
 }
 
