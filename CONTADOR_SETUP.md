@@ -1,37 +1,38 @@
-# 📊 Configuração do Contador de Visitas
+# 📊 Configuração do Contador de Visitas IP-Based
 
-## Arquivos Criados
+Este sistema implementa um contador de visitas único baseado em IP com fallback local para casos onde o PHP não está disponível.
 
-Para implementar o contador de visitas baseado em IP, foram criados os seguintes arquivos:
+## Status Atual do Sistema
 
-### 1. `visit_counter.php`
-- **Função**: Script PHP que registra e conta visitantes únicos por IP
-- **Características**:
-  - Registra IP real do visitante
-  - Permite nova contagem após 24 horas
-  - Armazena dados em arquivo JSON
-  - Retorna contagem em formato JSON
+⚠️ **IMPORTANTE**: O servidor atual não está executando PHP corretamente. O sistema está funcionando com um contador local baseado em localStorage como fallback.
 
-### 2. `visit_counter.js`
-- **Função**: Script JavaScript que faz requisições para o PHP
-- **Características**:
-  - Atualiza contador automaticamente
-  - Fallback local caso PHP não funcione
-  - Estilização integrada ao design do site
-  - Tratamento de erros
+## Arquivos do Sistema
+
+### 1. `visit_counter.php` (Não funcional no servidor atual)
+- **Função**: Backend PHP que processa as visitas e mantém o contador
+- **Status**: O servidor está retornando o código PHP como texto em vez de executá-lo
+- **Problema**: PHP não está configurado ou habilitado na hospedagem atual
+
+### 2. `visit_counter.js` (Funcionando com fallback)
+- **Função**: Frontend JavaScript que exibe o contador na página
+- **Características Atuais**:
+  - Tenta conectar com `visit_counter.php` primeiro
+  - Se falhar, usa sistema local com localStorage
+  - Mantém contador único por visitante (24h de cooldown)
+  - Inicia com 150+ visitas para manter consistência visual
+  - Incrementa apenas uma vez por visitante a cada 24 horas
 
 ### 3. `.htaccess`
 - **Função**: Configurações do servidor Apache
-- **Características**:
-  - Habilita execução de PHP
-  - Configura CORS para requisições AJAX
-  - Protege arquivo de dados
-  - Configurações de cache e segurança
+- **Status**: Enviado, mas PHP não está sendo processado
 
-### 4. `visits_data.json` (será criado automaticamente)
-- **Função**: Arquivo de dados que armazena os IPs e timestamps
-- **Localização**: Será criado automaticamente pelo PHP
-- **Formato**: JSON com estrutura `{"ip": timestamp}`
+### 4. Sistema de Fallback Local
+- **Como Funciona**:
+  - Usa `localStorage` do navegador para armazenar dados
+  - Gera ID único para cada visitante
+  - Registra timestamp da última visita
+  - Incrementa contador apenas após 24 horas da última visita
+  - Mantém contador cumulativo que nunca diminui
 
 ## 📋 Instruções para Upload na Hospedagem
 
