@@ -295,6 +295,49 @@ class RagnarokXPCalculator:
         title_label = ttk.Label(main_frame, text="🗡️ CALCULADORA XP RAGNAROK X 🗡️", style='Title.TLabel')
         title_label.pack(pady=(0, 20))
         
+
+        
+        # Frame do meio com informações do monstro e bênçãos
+        middle_frame = ttk.Frame(main_frame, style='Dark.TFrame')
+        middle_frame.pack(fill='x', pady=(0, 20))
+        
+        # Info do monstro (esquerda)
+        monster_info_frame = ttk.Frame(middle_frame, style='Card.TFrame')
+        monster_info_frame.pack(side='left', fill='both', expand=True, padx=(0, 10), pady=5, ipady=15)
+        
+        ttk.Label(monster_info_frame, text="📊 INFORMAÇÕES DO MONSTRO", style='Subtitle.TLabel').pack(pady=(10, 15))
+        self.monster_info_text = tk.Text(monster_info_frame, height=8, width=40, 
+                                        bg=self.colors['bg_accent'], fg=self.colors['text_primary'],
+                                        font=('Consolas', 10), relief='flat')
+        self.monster_info_text.pack(padx=15, pady=(0, 15))
+        
+        # Bênçãos info (direita)
+        blessing_frame = ttk.Frame(middle_frame, style='Card.TFrame')
+        blessing_frame.pack(side='right', fill='both', expand=True, padx=(10, 0), pady=5, ipady=15)
+        
+        ttk.Label(blessing_frame, text="✨ SISTEMA DE BÊNÇÃOS", style='Subtitle.TLabel').pack(pady=(10, 15))
+        
+        blessing_info = """
+🔹 PEQUENOS: 1 Bênção de Odim
+🔸 MÉDIOS: 2 Bênçãos de Odim  
+🔺 GRANDES: 3 Bênçãos de Odim
+
+💡 Farm com Bênção de Odim:
+   • +5x XP Base e Job
+   • +5x Drops de itens
+   
+⏰ Farm AFK (sem bênção):
+   • XP base do monstro
+   • Calculado por tempo
+        """
+        
+        blessing_text = tk.Text(blessing_frame, height=8, width=40, 
+                               bg=self.colors['bg_accent'], fg=self.colors['text_secondary'],
+                               font=('Segoe UI', 9), relief='flat')
+        blessing_text.pack(padx=15, pady=(0, 15))
+        blessing_text.insert('1.0', blessing_info)
+        blessing_text.config(state='disabled')
+        
         # Frame superior com controles
         controls_frame = ttk.Frame(main_frame, style='Card.TFrame')
         controls_frame.pack(fill='x', pady=(0, 20), padx=5, ipady=15)
@@ -353,47 +396,6 @@ class RagnarokXPCalculator:
                                    fg='white', font=('Segoe UI', 11, 'bold'), 
                                    relief='flat', padx=20, pady=8)
         recommend_button.grid(row=2, column=2, columnspan=2, padx=10, pady=5)
-        
-        # Frame do meio com informações do monstro e bênçãos
-        middle_frame = ttk.Frame(main_frame, style='Dark.TFrame')
-        middle_frame.pack(fill='x', pady=(0, 20))
-        
-        # Info do monstro (esquerda)
-        monster_info_frame = ttk.Frame(middle_frame, style='Card.TFrame')
-        monster_info_frame.pack(side='left', fill='both', expand=True, padx=(0, 10), pady=5, ipady=15)
-        
-        ttk.Label(monster_info_frame, text="📊 INFORMAÇÕES DO MONSTRO", style='Subtitle.TLabel').pack(pady=(10, 15))
-        self.monster_info_text = tk.Text(monster_info_frame, height=8, width=40, 
-                                        bg=self.colors['bg_accent'], fg=self.colors['text_primary'],
-                                        font=('Consolas', 10), relief='flat')
-        self.monster_info_text.pack(padx=15, pady=(0, 15))
-        
-        # Bênçãos info (direita)
-        blessing_frame = ttk.Frame(middle_frame, style='Card.TFrame')
-        blessing_frame.pack(side='right', fill='both', expand=True, padx=(10, 0), pady=5, ipady=15)
-        
-        ttk.Label(blessing_frame, text="✨ SISTEMA DE BÊNÇÃOS", style='Subtitle.TLabel').pack(pady=(10, 15))
-        
-        blessing_info = """
-🔹 PEQUENOS: 1 Bênção de Odim
-🔸 MÉDIOS: 2 Bênçãos de Odim  
-🔺 GRANDES: 3 Bênçãos de Odim
-
-💡 Farm com Bênção de Odim:
-   • +5x XP Base e Job
-   • +5x Drops de itens
-   
-⏰ Farm AFK (sem bênção):
-   • XP base do monstro
-   • Calculado por tempo
-        """
-        
-        blessing_text = tk.Text(blessing_frame, height=8, width=40, 
-                               bg=self.colors['bg_accent'], fg=self.colors['text_secondary'],
-                               font=('Segoe UI', 9), relief='flat')
-        blessing_text.pack(padx=15, pady=(0, 15))
-        blessing_text.insert('1.0', blessing_info)
-        blessing_text.config(state='disabled')
         
         # Frame de resultados
         results_frame = ttk.Frame(main_frame, style='Card.TFrame')
