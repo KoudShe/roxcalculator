@@ -640,6 +640,31 @@
             </div>
         </div>
         
+
+        
+        <!-- Nova seção de recomendações -->
+        <div class="recommendations-section">
+            <div class="section-header">
+                <h3 style="color: #15ff00; margin: 0;">🎯 RECOMENDAÇÕES POR NÍVEL 🎯</h3>                
+            </div>
+            <div class="section-header">
+                <strong style="color: #00ff22; margin: 0;">⚠️ Selecione o monstro desejado em "Cinfigurações de Farm" e edite o tempo de matar e a xp atualizada para ter um resultado preciso!⚠️</strong>
+            </div>
+            <div class="level-input-group">
+                <label for="playerLevel">Seu Nível:</label>
+                <input type="number" id="playerLevel" min="1" max="150" value="1">
+                
+                <label for="xpType">Foco em:</label>
+                <select id="xpType">
+                    <option value="base">XP Base</option>
+                    <option value="job">XP Job</option>
+                </select>
+                
+                <button onclick="showRecommendations()">🔍 BUSCAR MELHORES OPÇÕES</button>
+            </div>
+            <div id="recommendationsResult" class="recommendations-result"></div>
+        </div>
+        
         <div class="controls-section">
             <div class="section-header">
                 <h2 style="color: #00d4ff; margin: 0;">⚙️ CONFIGURAÇÕES DE FARM ⚙️</h2>
@@ -679,29 +704,6 @@
             <button class="edit-btn" onclick="openEditModal()">✏️ EDITAR XP</button>
         </div>
         
-        <!-- Nova seção de recomendações -->
-        <div class="recommendations-section">
-            <div class="section-header">
-                <h3 style="color: #15ff00; margin: 0;">🎯 RECOMENDAÇÕES POR NÍVEL 🎯</h3>                
-            </div>
-            <div class="section-header">
-                <strong style="color: #00ff22; margin: 0;">⚠️ Selecione o monstro desejado em "Cinfigurações de Farm" e edite o tempo de matar e a xp atualizada para ter um resultado preciso!⚠️</strong>
-            </div>
-            <div class="level-input-group">
-                <label for="playerLevel">Seu Nível:</label>
-                <input type="number" id="playerLevel" min="1" max="150" value="1">
-                
-                <label for="xpType">Foco em:</label>
-                <select id="xpType">
-                    <option value="base">XP Base</option>
-                    <option value="job">XP Job</option>
-                </select>
-                
-                <button onclick="showRecommendations()">🔍 BUSCAR MELHORES OPÇÕES</button>
-            </div>
-            <div id="recommendationsResult" class="recommendations-result"></div>
-        </div>
-        
         <div class="info-section">
             <div class="monster-info">
                 <div class="section-title">📊 INFORMAÇÕES DO MONSTRO</div>
@@ -734,6 +736,8 @@
                 </div>
             </div>
         </div>
+        
+
         
         <div class="results-section">
             <div class="section-title">📈 RESULTADOS DO CÁLCULO</div>
