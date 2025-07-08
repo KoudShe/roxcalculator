@@ -601,17 +601,126 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .info-section {
-                grid-template-columns: 1fr;
+        /* Responsividade para tablets */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 20px;
             }
             
             .controls-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .footer-stats {
+                gap: 20px;
+            }
+        }
+        
+        /* Responsividade para dispositivos móveis */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 15px;
             }
             
             .title {
                 font-size: 1.8em;
+            }
+            
+            .subtitle {
+                font-size: 1em;
+            }
+            
+            .info-section {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .controls-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .calculate-btn, .edit-btn {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .level-input-group {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            .level-input-group input,
+            .level-input-group select,
+            .level-input-group button {
+                width: 100%;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .footer-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .contact-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .contact-buttons a {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .modal-content {
+                width: 90%;
+                margin: 5% auto;
+            }
+        }
+        
+        /* Responsividade para telas muito pequenas */
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.4em;
+            }
+            
+            .header-banner {
+                padding: 15px;
+            }
+            
+            .controls-section,
+            .recommendations-section,
+            .results-section {
+                padding: 15px;
+            }
+            
+            .control-group select,
+            .control-group input {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+            
+            .calculate-btn, .edit-btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .stat-number {
+                font-size: 1.5em;
+            }
+            
+            .chart-container {
+                padding: 10px;
             }
         }
     </style>
@@ -669,6 +778,9 @@
             <div class="section-header">
                 <h2 style="color: #00d4ff; margin: 0;">⚙️ CONFIGURAÇÕES DE FARM ⚙️</h2>
             </div>
+             <div class="section-header">
+                <strong style="color: #ff0000; margin: 0;">⚠️ O cálculo só será exato se você denifir o tempo em que mata o monstro e quanto ganha de xp base/job!⚠️</strong>
+            </div>
             <div class="controls-grid">
                 <div class="control-group">
                     <label for="category">Categoria do Monstro:</label>
@@ -696,6 +808,28 @@
                     <select id="farmType">
                         <option value="afk">⏰ Farm AFK (sem bênção)</option>
                         <option value="odin">✨ Farm com Bênção de Odim</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="groupMembers">Membros do Grupo:</label>
+                    <select id="groupMembers" onchange="updateClassOptions()">
+                        <option value="1">1 Membro (Solo)</option>
+                        <option value="2">2 Membros</option>
+                        <option value="3">3 Membros</option>
+                        <option value="4">4 Membros</option>
+                        <option value="5">5 Membros</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="groupClasses">Classes Diferentes:</label>
+                    <select id="groupClasses">
+                        <option value="1">1 Classe</option>
+                        <option value="2">2 Classes</option>
+                        <option value="3">3 Classes</option>
+                        <option value="4">4 Classes</option>
+                        <option value="5">5 Classes</option>
                     </select>
                 </div>
             </div>
@@ -726,6 +860,11 @@
                     ⏰ <strong>Farm AFK (sem bênção):</strong><br>
                     • XP base do monstro<br>
                     • Calculado por tempo<br><br>
+                    
+                    👥 <strong>BÔNUS DE GRUPO:</strong><br>
+                    • XP dividida entre membros<br>
+                    • +10/20/30/40% por 2/3/4/5 membros<br>
+                    • +5/10/15/20% por 2/3/4/5 classes<br><br>
                     
                     🎯 <strong>Sistema de Penalização por Nível:</strong><br>
                     • <span style="color: #00ff88;">0-3 níveis de diferença: 100% XP</span><br>
@@ -805,6 +944,13 @@
                          style="width: 50px; height: 50px; border-radius: 10px; border: 2px solid #00d4ff; 
                                 box-shadow: 0 0 15px rgba(0, 212, 255, 0.5); object-fit: cover; aspect-ratio: 1/1;">
                     <p style="color: #00d4ff; margin: 10px 0 0 0; font-weight: bold;">Rinalski</p>
+                </div>
+                <div class="sponsor-item" style="text-align: center;">
+                    <img src="https://yt3.googleusercontent.com/feFf919b4abxjzfoce5nT9GaCHXdIxgvfpEJGhS4WT2XIO7W50l1zPgEWc4u9CSiNe9MsYoji_c=s160-c-k-c0x00ffffff-no-rj" 
+                         alt="GTA6-LIFE" 
+                         style="width: 50px; height: 50px; border-radius: 10px; border: 2px solid #00d4ff; 
+                                box-shadow: 0 0 15px rgba(0, 212, 255, 0.5); object-fit: cover; aspect-ratio: 1/1;">
+                    <p style="color: #00d4ff; margin: 10px 0 0 0; font-weight: bold;"><a href="https://www.youtube.com/@GTA6-LIFE" title="Inscreva-se" target="_blank">GTA6-LIFE</a></p>
                 </div>
                 <br>
                 <br>
@@ -1247,6 +1393,8 @@ Job: ${monster.odin_job.toLocaleString()}`;
             const monsterIndex = document.getElementById('monster').value;
             const killTime = parseFloat(document.getElementById('killTime').value);
             const farmType = document.getElementById('farmType').value;
+            const groupMembers = parseInt(document.getElementById('groupMembers').value);
+            const groupClasses = parseInt(document.getElementById('groupClasses').value);
             
             if (monsterIndex === '') {
                 alert('Selecione um monstro!');
@@ -1255,6 +1403,11 @@ Job: ${monster.odin_job.toLocaleString()}`;
             
             if (killTime <= 0) {
                 alert('Tempo deve ser maior que 0!');
+                return;
+            }
+            
+            if (groupClasses > groupMembers) {
+                alert('O número de classes diferentes não pode ser maior que o número de membros do grupo!');
                 return;
             }
             
@@ -1270,18 +1423,27 @@ Job: ${monster.odin_job.toLocaleString()}`;
                 jobXP = monster.odin_job;
             }
             
+            // Aplicar bônus de grupo
+            const memberBonus = [0, 0, 10, 20, 30, 40][groupMembers] || 0;
+            const classBonus = [0, 0, 5, 10, 15, 20][groupClasses] || 0;
+            const totalBonus = (100 + memberBonus + classBonus) / 100;
+            
+            // Dividir XP entre membros e aplicar bônus
+            const finalBaseXP = (baseXP / groupMembers) * totalBonus;
+            const finalJobXP = (jobXP / groupMembers) * totalBonus;
+            
             // Calcular rates
             const killsPerMinute = 60 / killTime;
             const killsPerHour = 3600 / killTime;
             
-            const xpBasePerMin = baseXP * killsPerMinute;
-            const xpJobPerMin = jobXP * killsPerMinute;
+            const xpBasePerMin = finalBaseXP * killsPerMinute;
+            const xpJobPerMin = finalJobXP * killsPerMinute;
             
-            const xpBasePerHour = baseXP * killsPerHour;
-            const xpJobPerHour = jobXP * killsPerHour;
+            const xpBasePerHour = finalBaseXP * killsPerHour;
+            const xpJobPerHour = finalJobXP * killsPerHour;
             
             // Atualizar interface
-            document.getElementById('xpPerKill').innerHTML = `Base: ${baseXP.toLocaleString()}<br>Job: ${jobXP.toLocaleString()}`;
+            document.getElementById('xpPerKill').innerHTML = `Base: ${Math.round(finalBaseXP).toLocaleString()}<br>Job: ${Math.round(finalJobXP).toLocaleString()}`;
             document.getElementById('xpPerMinute').innerHTML = `Base: ${Math.round(xpBasePerMin).toLocaleString()}<br>Job: ${Math.round(xpJobPerMin).toLocaleString()}`;
             document.getElementById('xpPerHour').innerHTML = `Base: ${Math.round(xpBasePerHour).toLocaleString()}<br>Job: ${Math.round(xpJobPerHour).toLocaleString()}`;
             
@@ -1301,7 +1463,7 @@ Job: ${monster.odin_job.toLocaleString()}`;
                 blessingResult.innerHTML = blessingText;
                 blessingResult.style.display = 'block';
             } else {
-                blessingResult.innerHTML = '💡 Farm AFK - Sem uso de bênçãos';
+                blessingResult.innerHTML = '💡 Farm AFK - Sem uso de bênçãos | Margen de erro 5% (+/-)';
                 blessingResult.style.display = 'block';
             }
             
@@ -2018,8 +2180,23 @@ Job: ${monster.odin_job.toLocaleString()}`;
             `;
         }
 
+        // Função para atualizar opções de classes baseado no número de membros
+        function updateClassOptions() {
+            const groupMembers = parseInt(document.getElementById('groupMembers').value);
+            const groupClassesSelect = document.getElementById('groupClasses');
+            const currentValue = parseInt(groupClassesSelect.value);
+            
+            // Se o número atual de classes for maior que o número de membros, ajustar
+            if (currentValue > groupMembers) {
+                groupClassesSelect.value = groupMembers;
+            }
+        }
+        
         // Inicializar a página
         updateMonsterList();
+        
+        // Adicionar event listener para atualizar opções de classes
+        document.getElementById('groupMembers').addEventListener('change', updateClassOptions);
         
         // Aplicar borda animada na logo oficial
         setOfficialLogo('https://www.ragnarokx.net/_nuxt/img_0.CYe3hNEG.png');
