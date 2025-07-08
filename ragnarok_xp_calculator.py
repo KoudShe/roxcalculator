@@ -329,6 +329,11 @@ class RagnarokXPCalculator:
 ⏰ Farm AFK (sem bênção):
    • XP base do monstro
    • Calculado por tempo
+
+👥 BÔNUS DE GRUPO:
+   • XP dividida entre membros
+   • +10/20/30/40% por 2/3/4/5 membros
+   • +5/10/15/20% por 2/3/4/5 classes
         """
         
         blessing_text = tk.Text(blessing_frame, height=8, width=40, 
@@ -384,18 +389,45 @@ class RagnarokXPCalculator:
                                relief='flat', padx=20, pady=8)
         edit_button.grid(row=1, column=5, padx=10, pady=5)
         
-        # Nova linha para recomendações
-        ttk.Label(controls_frame, text="Seu Nível:", style='Subtitle.TLabel').grid(row=2, column=0, padx=10, pady=5, sticky='w')
+        # Nova linha para configurações de grupo
+        ttk.Label(controls_frame, text="Membros do Grupo:", style='Subtitle.TLabel').grid(row=2, column=0, padx=10, pady=5, sticky='w')
+        self.group_members_var = tk.StringVar(value='1')
+        group_members_combo = ttk.Combobox(controls_frame, textvariable=self.group_members_var, 
+                                          values=['1', '2', '3', '4', '5'], state='readonly', width=10)
+        group_members_combo.grid(row=2, column=1, padx=10, pady=5)
+        
+        ttk.Label(controls_frame, text="Classes Diferentes:", style='Subtitle.TLabel').grid(row=2, column=2, padx=10, pady=5, sticky='w')
+        self.group_classes_var = tk.StringVar(value='1')
+        self.group_classes_combo = ttk.Combobox(controls_frame, textvariable=self.group_classes_var, 
+                                          values=['1', '2', '3', '4', '5'], state='readonly', width=10)
+        self.group_classes_combo.grid(row=2, column=3, padx=10, pady=5)
+        
+        # Bind para atualizar classes quando membros mudam
+        group_members_combo.bind('<<ComboboxSelected>>', self.update_class_options)
+        
+    def update_class_options(self, event=None):
+        """Atualiza as opções de classes baseado no número de membros"""
+        members = int(self.group_members_var.get())
+        class_options = [str(i) for i in range(1, members + 1)]
+        self.group_classes_combo['values'] = class_options
+        
+        # Se o valor atual de classes for maior que membros, ajustar
+        current_classes = int(self.group_classes_var.get())
+        if current_classes > members:
+            self.group_classes_var.set(str(members))
+        
+        # Terceira linha para nível e recomendações
+        ttk.Label(controls_frame, text="Seu Nível:", style='Subtitle.TLabel').grid(row=3, column=0, padx=10, pady=5, sticky='w')
         self.player_level_var = tk.StringVar(value='1')
         level_entry = ttk.Entry(controls_frame, textvariable=self.player_level_var, width=10)
-        level_entry.grid(row=2, column=1, padx=10, pady=5)
+        level_entry.grid(row=3, column=1, padx=10, pady=5)
         
         # Botão de recomendações
         recommend_button = tk.Button(controls_frame, text="🎯 MELHORES OPÇÕES", 
                                    command=self.show_recommendations, bg=self.colors['accent_purple'], 
                                    fg='white', font=('Segoe UI', 11, 'bold'), 
                                    relief='flat', padx=20, pady=8)
-        recommend_button.grid(row=2, column=2, columnspan=2, padx=10, pady=5)
+        recommend_button.grid(row=3, column=2, columnspan=2, padx=10, pady=5)
         
         # Frame de resultados
         results_frame = ttk.Frame(main_frame, style='Card.TFrame')
@@ -510,6 +542,13 @@ Job: {monster['odin_job']:,}
             category = self.category_var.get()
             selected_name = self.monster_var.get().split(' (Lv.')[0]
             farm_type = self.farm_type_var.get()
+            group_members = int(self.group_members_var.get())
+            group_classes = int(self.group_classes_var.get())
+            
+            # Validar que classes não exceda membros
+            if group_classes > group_members:
+                messagebox.showwarning("Aviso", "Número de classes diferentes não pode ser maior que o número de membros!")
+                return
             
             monster = None
             for m in self.monsters[category]:
@@ -529,18 +568,33 @@ Job: {monster['odin_job']:,}
                 base_xp = monster['odin_base']
                 job_xp = monster['odin_job']
             
+            # Aplicar divisão por membros do grupo
+            base_xp_per_member = base_xp / group_members
+            job_xp_per_member = job_xp / group_members
+            
+            # Calcular bônus de grupo por quantidade de membros
+            member_bonus = {1: 0, 2: 0.10, 3: 0.20, 4: 0.30, 5: 0.40}[group_members]
+            
+            # Calcular bônus de grupo por quantidade de classes diferentes
+            class_bonus = {1: 0, 2: 0.05, 3: 0.10, 4: 0.15, 5: 0.20}[group_classes]
+            
+            # Aplicar bônus (multiplicativo)
+            total_bonus = 1 + member_bonus + class_bonus
+            final_base_xp = base_xp_per_member * total_bonus
+            final_job_xp = job_xp_per_member * total_bonus
+            
             # Calcular rates
             kills_per_minute = 60 / kill_time
             kills_per_hour = 3600 / kill_time
             
-            xp_base_per_min = base_xp * kills_per_minute
-            xp_job_per_min = job_xp * kills_per_minute
+            xp_base_per_min = final_base_xp * kills_per_minute
+            xp_job_per_min = final_job_xp * kills_per_minute
             
-            xp_base_per_hour = base_xp * kills_per_hour
-            xp_job_per_hour = job_xp * kills_per_hour
+            xp_base_per_hour = final_base_xp * kills_per_hour
+            xp_job_per_hour = final_job_xp * kills_per_hour
             
             # Atualizar interface
-            self.xp_per_kill_label.config(text=f"Base: {base_xp:,}\nJob: {job_xp:,}")
+            self.xp_per_kill_label.config(text=f"Base: {final_base_xp:,.0f}\nJob: {final_job_xp:,.0f}")
             self.xp_per_min_label.config(text=f"Base: {xp_base_per_min:,.0f}\nJob: {xp_job_per_min:,.0f}")
             self.xp_per_hour_label.config(text=f"Base: {xp_base_per_hour:,.0f}\nJob: {xp_job_per_hour:,.0f}")
             
