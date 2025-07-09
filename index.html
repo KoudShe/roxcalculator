@@ -2,14 +2,15 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
     <title>⚔️ ROX XP Calculator - Next Generation</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="visit_counter.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9711817949179089"
-     crossorigin="anonymous"></script>
     <style>
         * {
             margin: 0;
@@ -25,7 +26,7 @@
             color: #ffffff;
             min-height: 100vh;
             padding: 20px;
-            background-attachment: fixed;
+            -webkit-overflow-scrolling: touch;
         }
 
         .container {
@@ -725,6 +726,32 @@
                 padding: 10px;
             }
         }
+        
+        /* Correções específicas para iOS Safari */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                -webkit-text-size-adjust: 100%;
+                -webkit-font-smoothing: antialiased;
+            }
+            
+            input, select, textarea, button {
+                -webkit-appearance: none;
+                border-radius: 0;
+            }
+            
+            .container {
+                transform: translateZ(0);
+                -webkit-transform: translateZ(0);
+            }
+            
+            .modal {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -782,6 +809,68 @@
             </div>
              <div class="section-header">
                 <strong style="color: #ff0000; margin: 0;">⚠️ O cálculo só será exato se você denifir o tempo em que mata o monstro e quanto ganha de xp base/job!⚠️</strong>
+            </div>
+            <div style="text-align: center; margin: 15px 0;">
+                <button id="guideButton" style="background: linear-gradient(45deg, #00ff80, #00d4ff); color: #000; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; box-shadow: 0 4px 8px rgba(0,255,128,0.3); transition: all 0.3s ease;">📚 GUIA COMPLETO DE USO 📚</button>
+            </div>
+            <div id="guideContent" style="display: none; background: linear-gradient(135deg, #1a1a1a, #2a2a2a); padding: 20px; border-radius: 12px; margin: 15px 0; color: #eee; line-height: 1.7; border: 2px solid #00ff80; box-shadow: 0 6px 20px rgba(0,255,128,0.2);">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2 style="color: #00ff80; margin: 0; text-shadow: 0 0 10px rgba(0,255,128,0.5);">🎮 GUIA DEFINITIVO DE XP 🎮</h2>
+                    <p style="color: #00d4ff; font-style: italic; margin: 5px 0;">Maximize seus ganhos de experiência em grupo!</p>
+                </div>
+                
+                <div style="background: rgba(0,255,128,0.1); padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #00ff80;">
+                    <h3 style="color: #00ff80; margin-top: 0;">🎯 PASSO 1: Obtendo a XP Base (Solo)</h3>
+                    <p style="margin-bottom: 15px;">📊 Primeiro, você precisa descobrir quanto XP o monstro dá quando você mata ele sozinho:</p>
+                    <div style="display: grid; gap: 10px;">
+                        <div style="background: rgba(0,212,255,0.1); padding: 10px; border-radius: 6px; border-left: 3px solid #00d4ff;">
+                            <strong style="color: #00d4ff;">🎯 Escolha seu alvo:</strong> Vá até a área de farm e selecione o monstro que você quer farmar
+                        </div>
+                        <div style="background: rgba(255,100,100,0.1); padding: 10px; border-radius: 6px; border-left: 3px solid #ff6464;">
+                            <strong style="color: #ff6464;">⚔️ Mate sozinho:</strong> Derrote o monstro uma vez SEM estar em grupo (PT)
+                        </div>
+                        <div style="background: rgba(255,215,0,0.1); padding: 10px; border-radius: 6px; border-left: 3px solid #ffd700;">
+                            <strong style="color: #ffd700;">📝 Anote os valores:</strong> Observe a XP base e job que você recebeu - essa é sua referência!
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: rgba(0,212,255,0.1); padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #00d4ff;">
+                    <h3 style="color: #00d4ff; margin-top: 0;">👥 PASSO 2: Calculando XP em Grupo</h3>
+                    <p style="margin-bottom: 15px;">🚀 Agora que você tem a XP base, vamos calcular os ganhos em grupo:</p>
+                    <div style="display: grid; gap: 10px;">
+                        <div style="background: rgba(0,255,128,0.1); padding: 10px; border-radius: 6px; border-left: 3px solid #00ff80;">
+                            <strong style="color: #00ff80;">🤝 Entre na PT:</strong> Forme ou junte-se a um grupo de farm
+                        </div>
+                        <div style="background: rgba(255,165,0,0.1); padding: 10px; border-radius: 6px; border-left: 3px solid #ffa500;">
+                            <strong style="color: #ffa500;">⏱️ Cronometragem:</strong> Observe quanto tempo sua PT leva para matar cada monstro
+                        </div>
+                        <div style="background: rgba(138,43,226,0.1); padding: 10px; border-radius: 6px; border-left: 3px solid #8a2be2;">
+                            <strong style="color: #8a2be2;">📈 XP por segundo:</strong> Anote quanto XP você ganha por segundo/milissegundo em grupo
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ffd700;">
+                    <h3 style="color: #ffd700; margin-top: 0;">⚠️ DICAS IMPORTANTES</h3>
+                    <div style="display: grid; gap: 10px;">
+                        <div style="background: rgba(0,255,128,0.1); padding: 10px; border-radius: 6px;">
+                            <strong style="color: #00ff80;">🎯 Cálculo Individual:</strong> A ferramenta calcula SUA XP individual, não do grupo todo
+                        </div>
+                        <div style="background: rgba(255,100,100,0.1); padding: 10px; border-radius: 6px;">
+                            <strong style="color: #ff6464;">📊 Níveis Diferentes:</strong> Se o grupo tem níveis muito diferentes, cada um recebe XP diferente
+                        </div>
+                        <div style="background: rgba(0,212,255,0.1); padding: 10px; border-radius: 6px;">
+                            <strong style="color: #00d4ff;">🎮 Níveis Similares:</strong> Para melhor precisão, farm com pessoas do mesmo nível que você
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px; padding: 15px; background: rgba(0,255,128,0.1); border-radius: 8px;">
+                    <p style="color: #00ff80; font-weight: bold; margin: 0;">🚀 Use essas informações para otimizar sua estratégia de farm! 🚀</p>
+                </div>
+            </div>
+            <div class="controls-grid">
             </div>
             <div class="controls-grid">
                 <div class="control-group">
@@ -2203,26 +2292,35 @@ Job: ${monster.odin_job.toLocaleString()}`;
         // Aplicar borda animada na logo oficial
         setOfficialLogo('https://www.ragnarokx.net/_nuxt/img_0.CYe3hNEG.png');
         
-        // Proteções contra inspeção e clique direito
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-        
-        document.addEventListener('keydown', function(e) {
-            // Bloquear F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+Shift+C
-            if (e.key === 'F12' || 
-                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
-                (e.ctrlKey && e.key === 'u')) {
+        // Proteção básica apenas para desktop (não interfere com mobile)
+        if (!/Mobi|Android/i.test(navigator.userAgent)) {
+            document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
+            });
+        }
+    </script>
+<script>
+        document.getElementById('guideButton').addEventListener('click', function() {
+            var guideContent = document.getElementById('guideContent');
+            if (guideContent.style.display === 'none') {
+                guideContent.style.display = 'block';
+                this.innerHTML = '📚 FECHAR GUIA 📚';
+            } else {
+                guideContent.style.display = 'none';
+                this.innerHTML = '📚 GUIA COMPLETO DE USO 📚';
             }
         });
         
-        // Detectar se DevTools está aberto
-        setInterval(function() {
-            if (window.outerHeight - window.innerHeight > 200 || window.outerWidth - window.innerWidth > 200) {
-                document.body.innerHTML = '';
-            }
-        }, 500);
+        // Adicionar efeito hover ao botão
+        document.getElementById('guideButton').addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.05)';
+            this.style.boxShadow = '0 6px 12px rgba(0,255,128,0.5)';
+        });
+        
+        document.getElementById('guideButton').addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+            this.style.boxShadow = '0 4px 8px rgba(0,255,128,0.3)';
+        });
     </script>
 </body>
 </html>
